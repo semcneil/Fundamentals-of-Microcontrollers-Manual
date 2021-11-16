@@ -1,0 +1,43 @@
+% Fundamentals of Microcontrollers Manual
+% 
+% Manual to accompany the class lectures and lab
+%
+% Seth McNeill
+% Started 2021 November 16
+
+\documentclass[12pt,openany]{book}
+\usepackage{hyperref}  % for URL hyperlinks
+\usepackage{datetime}  % for automated current date on the document
+\setcounter{secnumdepth}{3}  % to make subsubsections numbered
+
+\hypersetup{
+colorlinks,
+citecolor=black,
+filecolor=black,
+linkcolor=blue,
+urlcolor=blue
+}
+
+% for automated current date on the document
+\newdateformat{myDate}{\THEYEAR{ }\monthname[\THEMONTH] \twodigit{\THEDAY}}
+
+% Referencing commands 
+\newcommand{\chaplabel}[1]{\label{chap:#1}}
+\newcommand{\chapref}[1]{Chapter~\ref{chap:#1}}
+\newcommand{\seclabel}[1]{\label{sec:#1}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+
+\title{Fundamentals of Applied Microcontrollers Manual}
+\author{Seth McNeill}
+\date{Edition 0.01 \\ \myDate\today}
+
+\begin{document}
+	\maketitle
+
+	\tableofcontents
+
+	% include chapters here
+	\include{intro.tex}
+	\include{logic.tex}
+	\include{numbers.tex}
+\end{document}
