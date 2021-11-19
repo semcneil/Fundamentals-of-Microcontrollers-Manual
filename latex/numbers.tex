@@ -3,3 +3,120 @@
 
 This chapter introduces the concepts of different numbering systems that
 are relevant to microcontrollers.
+
+\section{Decimal Numbers}
+The standard number system used by humans is based on 10. This logically flows 
+the usual numbers of fingers or toes humans have. When counting in the base 10 (decimal) we 
+start at 0, count up to 9, then run out of numbers 
+to use. When runs out of numbers, we put a number to the left of the column we were counting
+in, and then start over at zero again which gives us the number 10. A more clear way to count 
+would be to count from 00 to 09, then increment the left digit and start the right digit back
+at 0. This can be continued until 99 is reached. But now we have a model to follow. If a 
+column gets to 9, we increment a column to the left and start the current column over at 0. 
+This leads to the number 100. This concept can be continued forever.
+
+When given a particular number, 3254, in decimal the value is calculated as
+\begin{equation}
+	3254 = 3\cdot1000 + 2\cdot100 + 5\cdot10 + 4
+\end{equation}
+It could also be represented as
+\begin{equation}
+	3254 = 3\cdot10^3 + 2\cdot10^2 + 5\cdot10^1 + 4\cdot10^0
+\end{equation}
+This is the basis for a positional number system.
+
+\section{Binary Numbers}
+Computers run a base 2 system, also known as binary. This means that we only have two options 
+at each position, 1 or 0, instead of the 10 available in the decimal system. However, counting
+is done in the same way, when you run out of symbols, increment the position to the left and 
+then start over at zero in the current position.
+
+Binary numbers are also positional so a number like 1011 is 
+\begin{equation}
+	1011 = 1\cdot2^3 + 0\cdot2^2 + 1\cdot2^1 + 1\cdot2^0 = 11_{10}
+\end{equation}
+where $11_{10}$ indicates that the number 11 is base 10.
+
+\section{Hexadecimal Numbers}
+The problem for humans is that we have a very difficult time reading binary numbers. Especially once the
+numbers get long such as 11101101010010110101. The first thing we can do to improve intelligibility is to 
+put a space in every 4 digits so that we aren't completely bowled over by all the digits. This gives us
+1110~1101~0100~1011~0101. This is better but still leaves some challenges. Someone pointed out that since
+4~bits can have 16 different values, what if each 4~bits (also called a nibble) was represented by a single
+base 16 number. Base 16 is called hexadecimal. It has the problem that it runs out of digits once we get to 
+10, so it was decided to simply start on the alphabet so $10_{10}$ is A, $11_{10}$ is B, and so forth. Now 
+the cumbersome binary number we've been playing with can be represented as ED4B5. 
+
+A comparison of the different numbering system representations of 0 through $15_{10}$ are shown in 
+Table~\ref{table:numsystems}.
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{c c c}
+		\hline
+		Decimal & Binary & Hexadecimal \\ 
+		\hline
+		00 & 0000 & 0 \\
+		01 & 0001 & 1 \\
+		02 & 0010 & 2 \\
+		03 & 0011 & 3 \\
+		04 & 0100 & 4 \\
+		05 & 0101 & 5 \\
+		06 & 0110 & 6 \\
+		07 & 0111 & 7 \\
+		08 & 1000 & 8 \\
+		09 & 1001 & 9 \\
+		10 & 1010 & A \\
+		11 & 1011 & B \\
+		12 & 1100 & C \\
+		13 & 1101 & D \\
+		14 & 1110 & E \\
+		15 & 1111 & F \\
+		\hline
+	\end{tabular}
+	\caption{Decimal, binary, and hexadecimal numbers align as shown in this table.}
+	\label{table:numsystems}
+\end{table}
+
+\section{Binary Background}
+The reasons for this stem from early computers 
+using switches (relays) as their basic computing elements and the fact that telling the 
+difference between a ``high" voltage and a ``low" voltage is easier to do than to differentiate
+10 different voltages. It also allows for a gap between high and low that creates some 
+immunity to noise. (TODO: insert figure or reference figure from logic chapter) 
+
+\section{Converting Between Bases}
+\subsection{Binary to Decimal}
+Converting to decimal is straightforward since we can simply sum each digit multiplied by the 
+power of 2 it represents. 
+\begin{equation}
+	\label{eq:bin2dec}
+	V_{10} = \sum_{i=0}^p d_i \cdot 2^i
+\end{equation}
+In Equation~\ref{eq:bin2dec} the $p$ digits, $d_i$, of the binary number are summed from right 
+to left while being multiplied by the power of 2 they represent. As an example, convert 
+1011~0111 to decimal.
+\begin{equation}
+	\begin{split}
+	V_{10} &= 1\cdot2^0 + 1\cdot2^1 + 1\cdot2^2 + 0\cdot2^3 + 1\cdot2^4 + 1\cdot2^5 + 0\cdot2^6 + 1\cdot2^7\\
+		&= 1 + 2 + 4 + 0 + 16 + 32 + 0 + 128\\
+		&= 183
+	\end{split}
+\end{equation}
+I usually find it easiest to just remember the powers of two for each place and add them up.
+\begin{equation}
+	\overset{128}{1}\quad\overset{64}{0}\quad\overset{32}{1}\quad\overset{16}{1}\quad\overset{8}{0}\quad
+	\overset{4}{1}\quad\overset{2}{1}\quad\overset{1}{1} = 1 + 2 + 4 + 16 + 32 + 128
+\end{equation}
+
+\subsection{Decimal to Binary}
+
+\subsection{Binary and Hexadecimal}
+For conversions between binary and hexadecimal I tend to use the table lookup method. After using it 
+enough times you begin to memorize the conversions. In my head I'm usually converting from binary to 
+decimal on each nibble and then converting decimal into hexadecimal. So if I see 0101 I remember it 
+is 3 in decimal which is the same in hex. If I see 1010 I remember that it is $8 + 2 = 10$ which is 
+one more than 9 so it is A in hex.
+
+\section{Colors}
+\section{ASCII}
