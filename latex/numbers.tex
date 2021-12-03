@@ -38,14 +38,16 @@ Binary numbers are also positional so a number like 1011 is
 where $11_{10}$ indicates that the number 11 is base 10.
 
 \section{Hexadecimal Numbers}
+\begin{sloppypar}
 The problem for humans is that we have a very difficult time reading binary numbers. Especially once the
-numbers get long such as 11101101010010110101. The first thing we can do to improve intelligibility is to 
+numbers get long such as $11101101010010110101_2$. The first thing we can do to improve intelligibility is to 
 put a space in every 4 digits so that we aren't completely bowled over by all the digits. This gives us
-1110~1101~0100~1011~0101. This is better but still leaves some challenges. Someone pointed out that since
+$1110~1101~0100~1011~0101_2$. This is better but still leaves some challenges. Someone pointed out that since
 4~bits can have 16 different values, what if each 4~bits (also called a nibble) was represented by a single
 base 16 number. Base 16 is called hexadecimal. It has the problem that it runs out of digits once we get to 
-10, so it was decided to simply start on the alphabet so $10_{10}$ is A, $11_{10}$ is B, and so forth. Now 
-the cumbersome binary number we've been playing with can be represented as ED4B5. 
+10, so it was decided to simply start on the alphabet so $10_{10}$ is $A_{16}$, $11_{10}$ is $B_{16}$, and so forth. Now 
+the cumbersome binary number we've been playing with can be represented as $ED4B5_{16}$. 
+\end{sloppypar}
 
 A comparison of the different numbering system representations of 0 through $15_{10}$ are shown in 
 Table~\ref{table:numsystems}.
@@ -110,13 +112,59 @@ I usually find it easiest to just remember the powers of two for each place and 
 \end{equation}
 
 \subsection{Decimal to Binary}
+Converting decimal numbers to binary involves dividing by 2 until the remainder is 0 or 1. The process
+goes as follows:
+\begin{enumerate}
+	\item  Divide the number by 2. If the remainder is 1 then the least significant bit is 1 otherwise if the remainder is 0 
+	(it was an even number) then the least significant bit is 0.
+	\item \label{st:d2b2}Take the quotient from the previous step and divide by 2. The remainder is the next more significant bit in the binary representation.
+	\item Repeat Step \ref{st:d2b2} until the quotient is 0.
+\end{enumerate}
+
+As an example, let's convert $11_{10}$ to binary. 
+\begin{equation}
+	\begin{aligned}
+		11 \div 2 & = 5R1 &\rightarrow 1 &\mathrm{~(LSB)} \\
+		5 \div 2 & = 2R1 &\rightarrow 1 \\
+		2 \div 2 & = 1R0 &\rightarrow 0 \\
+		1 \div 2 & = 0R1 &\rightarrow 1 & \mathrm{~(MSB)}
+	\end{aligned}
+\end{equation}
+That means that $11_{10}$ is $1011_2$. As another example let us convert $20_{10}$ to binary.
+\begin{equation}
+	\begin{aligned}
+		20 \div 2 & = 10R0 &\rightarrow 0 &\mathrm{~(LSB)}\\
+		10 \div 2 & = 5R0  &\rightarrow 0 \\
+		5 \div 2 &  = 2R1  &\rightarrow 1 \\
+		2 \div 2 &  = 1R0  &\rightarrow 0 \\
+		1 \div 2 &  = 0R1  &\rightarrow 1 & \mathrm{~(MSB)}
+	\end{aligned}
+\end{equation}
+This shows that $20_{10}$ is $10100_2$.
 
 \subsection{Binary and Hexadecimal}
 For conversions between binary and hexadecimal I tend to use the table lookup method. After using it 
 enough times you begin to memorize the conversions. In my head I'm usually converting from binary to 
 decimal on each nibble and then converting decimal into hexadecimal. So if I see 0101 I remember it 
-is 3 in decimal which is the same in hex. If I see 1010 I remember that it is $8 + 2 = 10$ which is 
+is 5 in decimal which is the same in hex. If I see 1010 I remember that it is $8 + 2 = 10$ which is 
 one more than 9 so it is A in hex.
 
 \section{Colors}
+Colors for display on computers are represented as binary numbers. Colors are 24~bit which is broken
+down into 3 8~bit numbers representing red, green, and blue (RGB). Eight bits give values over the 
+range of 0 to 255 so colors are represented by 3 numbers such as (255, 0, 255) which gives a 
+\textcolor[RGB]{255, 0, 255}{color like this}. It is good to note that (255, 255, 255) is white,
+(0, 0, 0) is black, and (X, X, X) where all three numbers are the same is gray.
+
+Sometimes colors are represented as a 6~digit binary number in hexadecimal form prefixed by 0x such 
+as 0xFF00FF for the color we looked at previously. 
+
 \section{ASCII}
+Since computers operate using binary numbers, how do we get them to represent human languages? The method 
+caught it is called \href{https://en.wikipedia.org/wiki/ASCII}{American Standard Code for Information Interchange (ASCII)}. Basically, 7~bit numbers
+were mapped to letters, numbers, punctuation, symbols, and control characters. Some examples are A is 65, Z 
+is 90, a is 97, z is 122, 0 is 48, 9 is 57. The most used control characters are carriage return (13 or \textbackslash r) and 
+line feed (10 or \textbackslash n). Unix based operating systems (Linux, OS X) use line feed to indicate a new line. Windows
+uses both (\textbackslash r\textbackslash n).
+
+Look up an ASCII table online when you need to know the values.
