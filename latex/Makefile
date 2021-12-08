@@ -1,4 +1,4 @@
-chapters = intro.tex logic.tex numbers.tex
+chapters = intro/intro.tex logic/logic.tex numbers/numbers.tex
 
 manual.pdf : manual.tex $(chapters)
 	latexmk -pdf manual
