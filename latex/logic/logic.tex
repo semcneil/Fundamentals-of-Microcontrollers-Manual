@@ -1,8 +1,59 @@
 \chapter{Boolean Logic}
 \chaplabel{logic}
 
-This introduces some basic Boolean logic including gates and Boolean algebra.
+\section{Introduction}
+This chapter introduces some basic Boolean logic including gates and Boolean algebra.
 
+How do you start a car? In the cars I have driven I have to press on the break at the 
+same time as I turn the key. To say it another way, the car starts when I press the break
+AND turn the key.
+\begin{equation}
+	pressBreak \: \mathrm{AND} \: turnKey = startedCar
+\end{equation}
+Again on a car, a blinker will turn on if you turn on the turn signal or if you turn on the 4-way blinker.
+\begin{equation}
+	turnSignal \: \mathrm{OR} \: 4wayBlinker = blinking
+\end{equation}
+The AND and OR in the equation are Boolean operators. 
+
+\section{Methods of Representing Logic}
+It is important to differentiate between different forms of representation because $\overline{\mathrm{EN}}$
+means \textbf{active low} enable. It does not mean NOT(E AND N). The understanding of which method is being 
+used is usually derived from context. Using the dot ($\cdot$) everywhere can become burdensome, so when context
+makes it obvious (usually examples involving A, B, and C or X and Y) we may drop the dots and just use adjacency to represent
+the AND function.
+
+\section{Boolean Algebra}
+
+\subsection{Theorems of Boolean Algebra}
+Ways to show NOT:
+\begin{subequations}
+	\begin{align}
+	NOT(X) &= \overline{X} = X^{\prime} \\
+	\overline{(\overline{X})} &= \left(X^{\prime}\right)^{\prime}= X
+	\end{align}
+\end{subequations}
+Rules of AND and OR:
+\begin{subequations}
+	\begin{align}
+	\mathrm{AND} \qquad & \mathrm{OR}\notag\\
+	0\cdot0 = 0 \qquad & 1+1 = 1\\
+	1\cdot1 = 1 \qquad & 0+0 = 0\\
+	0\cdot1 = 1\cdot0 = 0 \qquad & 1 + 0 = 0 + 1 = 1
+	\end{align}
+\end{subequations}
+
+\begin{subequations}
+	\begin{align}
+	\mathrm{AND} \qquad & \mathrm{OR}\notag\\
+	X\cdot1 = X \qquad & X + 0 = X\\	
+	X\cdot0 = 0 \qquad & X + 1 = 1\\	
+	X\cdot X = X \qquad & X + X = X\\	
+	X\cdot\overline{X} = X \qquad & X + \overline{X} = 1\\
+	\end{align}
+\end{subequations}
+
+\section{Logic Gates}
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[scale=0.7]{logic/NAND.eps}
