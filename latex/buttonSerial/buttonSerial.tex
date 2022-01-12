@@ -3,3 +3,25 @@
 
 \section{Introduction}
 This chapter introduces students to using buttons and serial communications.
+
+\section{I2C}
+I2C addresses for modules that are on the board or may be used with the board can be seen in Table \ref{table:i2caddresses}.
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{l l}
+		\hline
+		Address (HEX) & Module \\ 
+		\hline
+		0x44 or 0x45 & SHT31-DIS Temperature/Humidity \\
+		0x3D & 1.3" 128x64 OLED Display \\
+		0x39 & APDS-9960 Light, Color, Proximity, Gesture \\
+		0x77 & BME688 Temperature, Humidity, Gas \\
+		0x2D, 0x53, and 0x57 & ST25DV16 Dynamic NFC/RFID Tag IC \\
+		0x30 or other  & NeoKey 1x4 QT breakout board \\
+		0x10 & STEMMA MiniGPS \\
+		\hline
+	\end{tabular}
+	\caption{I2C addresses for relevant modules.}
+	\label{table:i2caddresses}
+\end{table}
