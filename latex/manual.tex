@@ -12,6 +12,17 @@
 \usepackage{amsmath}  % for aligned equations and such
 \usepackage{xcolor}  % to color text
 \usepackage[pdftex]{graphicx} % for includegraphics?
+\usepackage{siunitx}  % for aligning tables by decimal point
+
+% For creating nice addition figures
+% based on https://tex.stackexchange.com/a/96764
+\usepackage{cancel}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\newcommand{\addend}{\text{\textsl{\color{gray}{Addend}}}}
+\newcommand{\augend}{\text{\textsl{\color{gray}{Augend}}}}
+\newcommand{\sumOut}{\text{\textsl{\color{gray}{Sum}}}}
+% end addition figure requirements
 
 \hypersetup{
 colorlinks,

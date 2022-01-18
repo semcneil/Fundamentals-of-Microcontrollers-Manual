@@ -175,5 +175,90 @@ uses both (\textbackslash r\textbackslash n).
 
 Look up an ASCII table online when you need to know the values.
 
+\section{Adding and Subtracting Binary Numbers}
+\subsection{Default method}
+
+\subsubsection{Addition}
+% addition method based on https://tex.stackexchange.com/a/96764
+Calculate the binary sum $0001\;0011\;1101+0000\;1011\;0111$.
+\begin{equation}
+\begin{tikzpicture}[
+    row 1/.style={font=\textsl,font=\scriptsize,black!85, %anchor=west,
+        inner sep=1.5pt, row sep=-3pt},
+    every node/.style={column sep=.5pt,row sep=1pt}]
+    \matrix (m) [matrix of math nodes,
+        nodes in empty cells,
+        %nodes=draw
+    ] 
+    {
+        &   &   &   &   &   & 1 & 1 & 1 & 1 & 1 & 1 &   &                   \\
+        & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 1 &[10mm] \\
+    +   & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 1 &  \\ 
+        & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 &  \\                                                  
+    };
+
+    \draw[-,color=black,semithick] (m-3-1.south west) -- (m-3-13.south east);
+
+\end{tikzpicture}
+\label{binary_integer_addition}
+\end{equation}
+
+\subsubsection{Subtraction}
+Calculate the binary difference $0001\;0011\;1101-0000\;1011\;0111$.
+\begin{equation}
+\begin{tikzpicture}[
+    every node/.style={column sep=.5pt,row sep=1pt}]
+    \matrix (m) [matrix of math nodes,
+        nodes in empty cells,
+        %nodes=draw
+    ] 
+    {
+        & 0 & 0 & 0 & \cancelto{0}{1} & \cancelto{01}{0} & 0 & 1 & 1 & \cancelto{0}{1} & \cancelto{\cancelto{01}{0}}{1} & \cancelto{01}{0} & 1 &[10mm] \\
+    -   & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 1 &  \\ 
+        & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &  \\                                                  
+    };
+
+    \draw[-,color=black,semithick] (m-2-1.south west) -- (m-2-13.south east);
+
+\end{tikzpicture}
+\label{binary_integer_subraction}
+\end{equation}
+
+
+\subsection{Twos Complement method}
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{S c}
+		\hline
+		{Decimal} & {Two's Complement} \\ 
+		\hline
+		7 & 0111 \\
+		6 & 0110 \\
+		5 & 0101 \\
+		4 & 0100 \\
+		3 & 0011 \\
+		2 & 0010 \\
+		1 & 0001 \\
+		0 & 0000 \\
+		-1 & 1111 \\
+		-2 & 1110 \\
+		-3 & 1101 \\
+		-4 & 1100 \\
+		-5 & 1011 \\
+		-6 & 1010 \\
+		-7 & 1001 \\
+		-8 & 1000 \\
+		\hline
+	\end{tabular}
+	\caption{This table shows the decimal and two's complement numbers for 4-bits.}
+	\label{table:twoscomplement}
+\end{table}
+
+\section{Binary Background}
+Originally, computers were just a bunch of switches, therefore, they only had two positions: on and off. 
+This also has the benefit that there is a large amount of noise immunity. A repeater (buffer) can eliminate 
+by recreating the original signal without noise. These are all great benefits of the binary system.
+
 \section{Assignment}
 There is a numbers quiz on Canvas as the assignment for this lab.
