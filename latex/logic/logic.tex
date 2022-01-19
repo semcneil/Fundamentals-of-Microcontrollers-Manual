@@ -4,13 +4,17 @@
 \section{Introduction}
 This chapter introduces some basic Boolean logic including gates and Boolean algebra.
 
-How do you start a car? In the cars I have driven I have to press on the break at the 
+When can you drive through an intersection? When the light is NOT red. This is the first and simplest
+logic operator--the NOT element. It simply changes any TRUE to FALSE or FALSE to TRUE (you can substitute
+1 for TRUE and 0 for FALSE, or on/off).
+
+How do you start a car? In most of the cars I have driven I have to press on the brake at the 
 same time as I turn the key. To say it another way, the car starts when I press the break
 AND turn the key.
 \begin{equation}
 	pressBreak \: \mathrm{AND} \: turnKey = startedCar
 \end{equation}
-Again on a car, a blinker will turn on if you turn on the turn signal or if you turn on the 4-way blinker.
+Again on a car, a particular blinker light will turn on if you turn on the turn signal or if you turn on the 4-way blinker.
 \begin{equation}
 	turnSignal \: \mathrm{OR} \: 4wayBlinker = blinking
 \end{equation}
@@ -56,7 +60,36 @@ Rules of AND and OR:
 \section{Logic Gates}
 \begin{figure}[!htb]
 	\centering
+	\includegraphics[scale=0.7]{logic/NOT.eps}
+	\caption{The NOT gate, also called an inverter, outputs NOT(A).}
+	\label{fig:notgate}
+\end{figure} 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.7]{logic/AND.eps}
+	\caption{The AND gate outputs A AND B.}
+	\label{fig:andgate}
+\end{figure} 
+
+\begin{figure}[!htb]
+	\centering
 	\includegraphics[scale=0.7]{logic/NAND.eps}
 	\caption{The NAND gate outputs NOT(A AND B).}
-	\label{fig:nand}
-  \end{figure} 
+	\label{fig:nandgate}
+\end{figure} 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.7]{logic/OR.eps}
+	\caption{The OR gate outputs A OR B.}
+	\label{fig:orgate}
+\end{figure} 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.7]{logic/NOR.eps}
+	\caption{The NOR gate outputs NOT(A OR B).}
+	\label{fig:norgate}
+\end{figure} 
+
