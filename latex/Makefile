@@ -6,3 +6,5 @@ manual.pdf : manual.tex $(chapters)
 
 clean:
 	rm *.pdf
+	find .. -type f -name '*.aux' -delete
+	rm ../docs/*.pdf
