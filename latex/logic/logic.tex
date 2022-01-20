@@ -53,17 +53,38 @@ Rules of AND and OR:
 	X\cdot1 = X \qquad & X + 0 = X\\	
 	X\cdot0 = 0 \qquad & X + 1 = 1\\	
 	X\cdot X = X \qquad & X + X = X\\	
-	X\cdot\overline{X} = X \qquad & X + \overline{X} = 1\\
+	X\cdot\overline{X} = X \qquad & X + \overline{X} = 1
 	\end{align}
 \end{subequations}
 
-\section{Logic Gates}
+The following are very important to remember:
+\begin{subequations}
+	\begin{align}
+		\overline{A} \cdot \overline{B} &\neq \overline{AB} \\
+		\overline{A} + \overline{B} &\neq \overline{A + B} 
+	\end{align}
+\end{subequations}
+
+\section{Logic Gates and Truth Tables}
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[scale=0.7]{logic/NOT.eps}
 	\caption{The NOT gate, also called an inverter, outputs NOT(A).}
 	\label{fig:notgate}
 \end{figure} 
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		A & X \\ 
+		\hline
+		0 & 1 \\ \hline
+		1 & 0 \\ \hline
+	\end{tabular}
+	\caption{This is the truth table for a NOT gate.}
+	\label{table:notgate}
+\end{table}
 
 \begin{figure}[!htb]
 	\centering
@@ -72,12 +93,42 @@ Rules of AND and OR:
 	\label{fig:andgate}
 \end{figure} 
 
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c | c |}
+		\hline
+		A & B & X \\ 
+		\hline
+		0 & 0 & 0 \\ \hline
+		0 & 1 & 0 \\ \hline
+		1 & 0 & 0 \\ \hline
+		1 & 1 & 1 \\ \hline
+	\end{tabular}
+	\caption{This is the truth table for an AND gate.}
+	\label{table:andgate}
+\end{table}
+
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[scale=0.7]{logic/NAND.eps}
 	\caption{The NAND gate outputs NOT(A AND B).}
 	\label{fig:nandgate}
 \end{figure} 
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c | c |}
+		\hline
+		A & B & X \\ 
+		\hline
+		0 & 0 & 1 \\ \hline
+		0 & 1 & 1 \\ \hline
+		1 & 0 & 1 \\ \hline
+		1 & 1 & 0 \\ \hline
+	\end{tabular}
+	\caption{This is the truth table for an NAND gate.}
+	\label{table:nandgate}
+\end{table}
 
 \begin{figure}[!htb]
 	\centering
@@ -86,6 +137,21 @@ Rules of AND and OR:
 	\label{fig:orgate}
 \end{figure} 
 
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c | c |}
+		\hline
+		A & B & X \\ 
+		\hline
+		0 & 0 & 0 \\ \hline
+		0 & 1 & 1 \\ \hline
+		1 & 0 & 1 \\ \hline
+		1 & 1 & 1 \\ \hline
+	\end{tabular}
+	\caption{This is the truth table for an OR gate.}
+	\label{table:orgate}
+\end{table}
+
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[scale=0.7]{logic/NOR.eps}
@@ -93,3 +159,17 @@ Rules of AND and OR:
 	\label{fig:norgate}
 \end{figure} 
 
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c | c |}
+		\hline
+		A & B & X \\ 
+		\hline
+		0 & 0 & 1 \\ \hline
+		0 & 1 & 0 \\ \hline
+		1 & 0 & 0 \\ \hline
+		1 & 1 & 0 \\ \hline
+	\end{tabular}
+	\caption{This is the truth table for an NOR gate.}
+	\label{table:norgate}
+\end{table}
