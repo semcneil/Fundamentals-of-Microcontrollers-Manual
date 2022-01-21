@@ -53,7 +53,35 @@ Rules of AND and OR:
 	X\cdot1 = X \qquad & X + 0 = X\\	
 	X\cdot0 = 0 \qquad & X + 1 = 1\\	
 	X\cdot X = X \qquad & X + X = X\\	
-	X\cdot\overline{X} = X \qquad & X + \overline{X} = 1
+	X\cdot\overline{X} = 0 \qquad & X + \overline{X} = 1
+	\end{align}
+\end{subequations}
+
+For two and three variables you have the following useful equations:
+\begin{subequations}
+	\begin{align}
+	\mathrm{AND} \qquad & \mathrm{OR}\notag \\
+	X\cdot Y = Y \cdot X \qquad & X + Y = Y + X \\
+	(X \cdot Y) \cdot Z = X \cdot (Y \cdot Z) \qquad & (X + Y) + Z = X + (Y + Z) \\
+	(X + Y)\cdot (X + Z) = X + Y\cdot Z \qquad & X\cdot Y + X\cdot Z = X\cdot (Y + Z) \\
+	X\cdot (X + Y) = X \qquad & X + X\cdot Y = X \\
+	(X + Y) \cdot (X + \overline{Y}) = X \qquad & X\cdot Y + X\cdot \overline{Y} = X \\
+	X\cdot (\overline{X} + Y) = X\cdot Y \qquad & X + \overline{X} \cdot Y = X + Y
+	\end{align}
+	\begin{equation}
+	X\cdot Y + \overline{X}\cdot Z + Y\cdot Z = X\cdot Y + \overline{X}\cdot Z \\
+	\end{equation}
+	\begin{equation}
+	(X + Y) \cdot (\overline{X} + Z) \cdot (Y + Z) = (X + Y) \cdot (\overline{X} + Z)
+	\end{equation}
+\end{subequations}
+
+A very important pair of equations are DeMorgan's theorems which allow us to switch between sums of 
+products and products of sums.
+\begin{subequations}
+	\begin{align}
+		\overline{(X_1\cdot X_2 \cdot \ \cdots\  \cdot X_n)} & = \overline{X_1} + \overline{X_2} + \cdots + \overline{X_n} \\
+		\overline{(X_1 + X_2 + \cdots + X_n)} & = \overline{X_1}\cdot\overline{X_2}\cdot\ \cdots\ \cdot\overline{X_n}
 	\end{align}
 \end{subequations}
 
@@ -66,6 +94,7 @@ The following are very important to remember:
 \end{subequations}
 
 \section{Logic Gates and Truth Tables}
+It is important to be able to transform between equation, diagrams/circuits, and truth tables.
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[scale=0.7]{logic/NOT.eps}
