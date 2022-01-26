@@ -2,7 +2,52 @@
 \chaplabel{arduino}
 
 \section{Introduction}
-This chapter gets students started with the Arduino IDE.
+This chapter gives the students an introduction to the hardware we are using and gets them started with 
+the Arduino IDE.
+
+\section{Datasheets}
+\subsection{Arduino Nano Connect RP2040}
+The data sheet for the Arduino Nano Connect RP2040 is located at\\ 
+\href{https://docs.arduino.cc/resources/datasheets/ABX00053-datasheet.pdf}{https://docs.arduino.cc/resources/datasheets/ABX00053-datasheet.pdf}.
+
+The main website for it is at \\
+\href{https://docs.arduino.cc/hardware/nano-rp2040-connect}{https://docs.arduino.cc/hardware/nano-rp2040-connect}
+
+The pinout is at \\
+\href{https://content.arduino.cc/assets/Pinout\_NanoRP2040\_latest.png}{https://content.arduino.cc/assets/Pinout\_NanoRP2040\_latest.png}.
+
+\subsection{RP2040 Microcontroller}
+The RP2040 microcontroller datasheet (all 654 pages) is at \\
+\href{https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf}{https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf}.
+
+If you are ever interested in putting the microcontroller onto a circuit board yourself, there is a reference design at \\
+\href{https://datasheets.raspberrypi.com/rp2040/hardware-design-with-rp2040.pdf}{https://datasheets.raspberrypi.com/rp2040/hardware-design-with-rp2040.pdf}.
+
+\subsection{IMU - ST LSM6DSOXTR}
+The IMU datasheet is at \\
+\href{https://www.st.com/resource/en/datasheet/lsm6dsox.pdf}{https://www.st.com/resource/en/datasheet/lsm6dsox.pdf}
+
+\subsection{Mic - ST MP34DT06JTR}
+The microphone datasheet is at \\
+\href{https://www.st.com/resource/en/datasheet/mp34dt06j.pdf}{https://www.st.com/resource/en/datasheet/mp34dt06j.pdf}
+
+The \href{https://www.st.com/en/mems-and-sensors/mp34dt06j.html#sample-buy}{overview page} shows that the microphone is still actively being produced.
+
+\subsection{WiFi and Bluetooth - U-blox® Nina W102}
+The main page for the wireless unit is at \\
+\href{https://www.u-blox.com/en/product/nina-w10-series-open-cpu}{https://www.u-blox.com/en/product/nina-w10-series-open-cpu}.
+
+The datasheet is at \\
+\href{https://www.u-blox.com/sites/default/files/NINA-W10\_DataSheet\_UBX-17065507.pdf}{https://www.u-blox.com/sites/default/files/NINA-W10\_DataSheet\_UBX-17065507.pdf}.
+
+\subsection{Cryptographic IC - Microchip® ATECC608A}
+Note that Microchip \href{https://www.microchip.com/en-us/product/ATECC608A}{doesn't suggest using this chip in new designs} so expect that some future versions of the
+Nano RP2040 Connect to use the successor (\href{https://www.microchip.com/en-us/product/ATECC608B}{ATTECC608B}).
+
+The datasheet for the A is here: \\
+\href{https://ww1.microchip.com/downloads/en/DeviceDoc/ATECC608A-CryptoAuthentication-Device-Summary-Data-Sheet-DS40001977B.pdf}{https://ww1.microchip.com/downloads/en/DeviceDoc/ATECC608A-CryptoAuthentication-Device-Summary-Data-Sheet-DS40001977B.pdf}.
+
+Note that it says it is a summary datasheet. You have to sign an NDA with Microchip to see the full datasheet.
 
 \section{Installing the IDE}
 These directions assume that you are using the lab computers and One Drive.
@@ -54,7 +99,22 @@ These directions assume that you are using the lab computers and One Drive.
 
 \begin{figure}[!htb]
 	\centering
-	\includegraphics[scale=1.0]{arduinoStart/BoardsManager.PNG}
+	\includegraphics[scale=0.9]{arduinoStart/BoardsManager.PNG}
 	\caption{This what the Boards Manager loads up to.}
 	\label{fig:boardsManager}
+\end{figure} 
+
+\begin{figure}[!htb]
+	\centering
+	%\includepdf[pages=-,pagecommand={},width=\textwidth]{arduinoStart/Schematic_NanoConnectRP2040test1_v0.1.pdf}
+	\includegraphics[width=\textwidth]{arduinoStart/Schematic_NanoConnectRP2040test1_v0.1} % leaving off extension seems to work
+	\caption{This is the schematic of the first version of the board for the class.}
+	\label{fig:boardSchematic}
+\end{figure} 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics{arduinoStart/PCB_PCB_NanoConnectRP2040test1_v0.1} % leaving off extension seems to work
+	\caption{This shows the top of the first version of the board for this class to help locate components.}
+	\label{fig:boardTop}
 \end{figure} 
