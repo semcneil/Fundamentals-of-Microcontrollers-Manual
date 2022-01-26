@@ -60,9 +60,9 @@ These directions assume that you are using the lab computers and One Drive.
 	\item It should load up with a window that looks like Figure \ref{fig:emptysketch}.
 	\item In order to get it to connect correctly to your board, you need to install the Arduino Nano Connect RP2040 board.
 	\begin{enumerate}
-		\item Navigate to Tools$\rightarrow$Board: "Arduino Uno" (or similar)$\rightarrow$Boards Manager
+		\item Navigate to Tools$\rightarrow$Board: ``Arduino Uno" (or similar)$\rightarrow$Boards Manager
 		\item It should load as shown in Figure \ref{fig:boardsManager}.
-		\item In the search bar, type "arduino nano connect" (without the quotes)
+		\item In the search bar, type ``arduino nano connect" (without the quotes)
 		\item The first item should be Arduino Mbed OS Nano Boards and should list the Arduino Nano RP2040 Connect.
 		\item Move your cursor over it and it should show an Install button. Click it to install the board library.
 		\item Wait for it to finish.
@@ -77,7 +77,7 @@ These directions assume that you are using the lab computers and One Drive.
 	\item Go to Tools$\rightarrow$Board$\rightarrow$Arduino Mbed OS Nano Boards and select the Arduino Nano RP2040 Connect
 	\item Go to Tools$\rightarrow$Port and select the COM that isn't COM1 (mine showed up as COM5)
 	\item Click the right arrow under the word edit in the menu to Uplaod the sketch to the Arduino board.
-	\item It should say "Compiling sketch..." in the lower left and show a progress bar on the lower right.
+	\item It should say ``Compiling sketch..." in the lower left and show a progress bar on the lower right.
 	\item Then it should switch to Uploading... and finally Done Uploading.
 	\item An orange light near the USB port on your board should be blinking.
 	\item Congratulations! You have programmed your board!
@@ -86,7 +86,21 @@ These directions assume that you are using the lab computers and One Drive.
 	\begin{enumerate}
 		\item Go to File$\rightarrow$Preferences
 		\item Change the Sketchbook location to your OneDrive and a folder named arduino (lowercase is good)
-		\item My OneDrive was in C:\textbackslash Users\textbackslash mcneils2\textbackslash OneDrive - Embry-Riddle Aeronautical University\textbackslash arduino
+		\item My OneDrive was in \\C:\textbackslash Users\textbackslash mcneils2\textbackslash OneDrive - Embry-Riddle 
+		Aeronautical University\textbackslash arduino
+	\end{enumerate}
+	\item Now try saving the blink sketch with your changed values.
+	\item Demonstrate your working blink and it's storage location to your instructor/TA
+	\item Here are some other Examples to test:
+	\begin{enumerate}
+		\item Basics $\rightarrow$ fade: change the variable led to be LED\_BUILTIN, watch the red/orange LED pulse
+		\item Basics $\rightarrow$ AnalogInOutSerial: change analogInPin to A1 and analogOutPin to LED\_BUILTIN. Turn 
+				the potentiometer (R6) with a screwdriver and watch the LED change accordingly. If you press the magnifying
+				glass button in the top right the actual values will scroll by. You may need to set the baud rate to 9600.
+		\item Digital $\rightarrow$ DigitalInputPullup: Change the first pinMode call to use 9 instead of 2. The same for 
+				the digitalRead command (2$\rightarrow$9). Press the left button and see the LED blink. The right button is 
+				pin 10. Note that this program isn't written as well as the others since you have to change a number in two
+				places. Could you rewrite it better?
 	\end{enumerate}
 \end{enumerate}
 
