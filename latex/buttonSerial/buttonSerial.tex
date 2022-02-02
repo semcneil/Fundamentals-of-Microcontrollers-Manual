@@ -4,10 +4,138 @@
 \section{Introduction}
 This chapter introduces students to using buttons and serial communications.
 
-\section{Types of Serial}
+\section{Buttons}
+
+A typical button circuit is shown in Figure \ref{fig:buttonPullup}. The input is high until the button is pressed.
+Unfortunately, being mechanical, buttons do not always create nice, clean switched inputs as is shown in 
+Figure~\ref{fig:buttonDebounce}. Maxim Integrated has a 
+\href{https://www.maximintegrated.com/en/design/technical-documents/app-notes/2/287.html}{nice paper} on the topic
+advertizing their devices to solve the problem. However, if we don't have the option of adding their hardware, some 
+work can be done in software to debounce an input. As Maxim mentions, software debouncing is not free. It does incur
+some overhead so you probably do not want to do it for many inputs. Am example of software debouncing is in 
+Listing \ref{lst:debounce}.
+
+\begin{lstlisting}[language=C++, caption={This is the Arduino example of software debouncing.},label={lst:debounce}]
+	/*
+	Debounce
+  
+	Each time the input pin goes from LOW to HIGH (e.g. because of a push-button
+	press), the output pin is toggled from LOW to HIGH or HIGH to LOW. There's a
+	minimum delay between toggles to debounce the circuit (i.e. to ignore noise).
+  
+	The circuit:
+	- LED attached from pin 13 to ground through 220 ohm resistor
+	- pushbutton attached from pin 2 to +5V
+	- 10 kilohm resistor attached from pin 2 to ground
+  
+	- Note: On most Arduino boards, there is already an LED on the board connected
+	  to pin 13, so you don't need any extra components for this example.
+  
+	created 21 Nov 2006
+	by David A. Mellis
+	modified 30 Aug 2011
+	by Limor Fried
+	modified 28 Dec 2012
+	by Mike Walters
+	modified 30 Aug 2016
+	by Arturo Guadalupi
+  
+	This example code is in the public domain.
+  
+	https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
+  */
+  
+  // constants won't change. They're used here to set pin numbers:
+  const int buttonPin = 9;    // the number of the pushbutton pin
+  const int ledPin = 13;      // the number of the LED pin
+  
+  // Variables will change:
+  int ledState = LOW;         // the current state of the output pin
+  int buttonState;             // the current reading from the input pin
+  int lastButtonState = LOW;   // the previous reading from the input pin
+  
+  // the following variables are unsigned longs because the time, measured in
+  // milliseconds, will quickly become a bigger number than can be stored in an int.
+  unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
+  unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
+  
+  void setup() {
+	Serial.begin(115200);
+	while(!Serial) delay(10);
+	Serial.println("Starting...");
+	
+	pinMode(buttonPin, INPUT);
+	pinMode(ledPin, OUTPUT);
+  
+	// set initial LED state
+	digitalWrite(ledPin, ledState);
+  }
+  
+  void loop() {
+	// read the state of the switch into a local variable:
+	int reading = digitalRead(buttonPin);
+  
+	// check to see if you just pressed the button
+	// (i.e. the input went from LOW to HIGH), and you've waited long enough
+	// since the last press to ignore any noise:
+  
+	// If the switch changed, due to noise or pressing:
+	if (reading != lastButtonState) {
+	  // reset the debouncing timer
+	  lastDebounceTime = millis();
+	}
+  
+	if ((millis() - lastDebounceTime) > debounceDelay) {
+	  // whatever the reading is at, it's been there for longer than the debounce
+	  // delay, so take it as the actual current state:
+  
+	  // if the button state has changed:
+	  if (reading != buttonState) {
+		buttonState = reading;
+  
+		// only toggle the LED if the new button state is HIGH
+		if (buttonState == HIGH) {
+		  ledState = !ledState;
+		}
+	  }
+	}
+  
+	// set the LED:
+	digitalWrite(ledPin, ledState);
+  
+	// save the reading. Next time through the loop, it'll be the lastButtonState:
+	lastButtonState = reading;
+  
+  }
+\end{lstlisting}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics{buttonSerial/button1.eps}
+	\caption{This is a typical button input circuit. It is active low in that the output signal will be high until the button is pressed.}
+	\label{fig:buttonPullup}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.5]{buttonSerial/debounce.eps}
+	\caption{This is an example of what the output signal from a button with the circuit in Figure \ref{fig:buttonPullup} could look like.}
+	\label{fig:buttonDebounce}
+\end{figure}
+
+
+\section{Serial Communications}
+Serial communications sends data one bit at a time from one device to another as shown in Figure \ref{fig:serial}. This is in 
+contrast to parallel communications where multiple bits (8 in the example) are transferred simultaneously between devices as 
+shown in Figure \ref{fig:parallel}. As can be seen parallel communications is much faster than serial since you can send 
+so many bits simultaneously. However, parallel requires many more pins on each device to communicate. This is challenging in 
+the embedded systems world since most microcontrollers don't have many pins. Also, connectors with many pins tend to fail 
+more often than connectors with fewer pins. Because of these reasons, the embedded world communicates primarily with serial 
+protocols. 
 
 \begin{figure}[!htb]
 	% Serial
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Device 1};
@@ -15,12 +143,13 @@ This chapter introduces students to using buttons and serial communications.
 		% ARROWS	
 		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,2) |- node [above,pos=0.75] {01101101} (8,2) ;
 	\end{tikzpicture}
-	\label{fig:serial}
 	\caption{Serial transfers one bit at a time.}
+	\label{fig:serial}
 \end{figure}
 	
 	% Parallel
 \begin{figure}[!htb]
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,5) node (dev3) [pos=0.5] {Device 1};
@@ -36,12 +165,49 @@ This chapter introduces students to using buttons and serial communications.
 		\draw [thick, -{latex[length=4mm, width=6mm]}] (4,0.75) |- node [above,pos=0.75] {1} (8,0.75) ;
 		
 	\end{tikzpicture}
-	\label{fig:parallel}
 	\caption{Parallel transfers multiple bits at a time.}
+	\label{fig:parallel}
 \end{figure}
+
+A table of serial protocols is listed in Table \ref{table:serialTypes}. 
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{l l}
+		\hline
+		Protocol & Description \\ 
+		\hline
+		UART & Used to communicate between computers and Arduino boards \\
+		SPI & Used for higher speed communications between devices on circuit boards \\
+		I\textsuperscript{2}C & Only uses two wires and allows for multiple controllers and peripherals \\
+		\rowcolor{lightgray}\emph{CAN} & \emph{Often used in the automotive industry} \\
+		\rowcolor{lightgray}\emph{RS-485} & \emph{Differential signaling for robustness (noisy and long wires)} \\
+		\rowcolor{lightgray}\emph{1-Wire}  & \emph{Only requires 1 wire and ground (no power) to communicate} \\
+		\rowcolor{lightgray}\emph{USB} & \emph{Ubiquitous on computers now} \\
+		\hline
+	\end{tabular}
+	\caption{This is a list of some of the more common serial protocols. The grayed out protocols will not be discussed further.}
+	\label{table:serialTypes}
+\end{table}
+
+\subsection{Universal Asynchronous Receiver-Transmitter}
+The Universal Asynchronous Receiver-Transmitter (UART) protocol has been around quite a while. Older computers used to ship with
+serial ports that used this protocol, usually implemented as the RS-232 protocol. UARTs are used to communicate between two devices.
+It does not allow for more than two devices. It is full duplex and communicates over 2 wires (plus a ground for reference). 
+One wire transmits data from Device 1 to Device 2 and is connected to Device 1's TX pin and Device 2's RX pin. The second wire 
+transmits data from Device 2 to Device 1 and is connected to Device 1's RX pin and Device 2's TX pin. This is illustrated in 
+Figure \ref{fig:uart}. This protocol does require both devices to use the same specified transmission speed. Some common speeds
+are 9600, 14,400, 57,600, and 115,200. It can go faster. Nowadays, it is generally best to go as fast as possible so that
+the communications takes less of the processor's time. The most common speed used now seems to be 115,200. The asynchronous 
+part of the name comes from the fact that there is no clock line for UARTs. It typically has a maximum speed of 1.5 megabits 
+per second (Mbps).
+
+UART is the protocol used to communicate between the computer and your Arduino board. You can see this in the code 
+in the setup function where \lstinline{Serial.begin(115200)} or \lstinline{Serial.begin(9600)} shows up often.
 
 \begin{figure}[!htb]
 	% UART
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Device 1};
@@ -50,12 +216,25 @@ This chapter introduces students to using buttons and serial communications.
 		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,2.5) node [anchor=east] {TX} -- (8,1.5) node [anchor=west] {RX} ;
 		\draw [thick,{latex[length=4mm, width=6mm]}-] (4,1.5) node [anchor=east] {RX} -- (8,2.5) node [anchor=west] {TX} ;
 	\end{tikzpicture}
-	\label{fig:uart}
 	\caption{A UART has full duplex between two entities.}
+	\label{fig:uart}
 \end{figure}
+
+\subsection{Serial Peripheral Interface}
+The Serial Peripheral Interface (SPI) is a full-duplex serial interface shown in Figure \ref{fig:spi}. It is setup in a controller-peripheral 
+(previously known as master-slave) architecture with only one controller on the bus. It does allow for multiple 
+peripherals by giving each peripheral its own chip select (CS) line. Since it is synchronous, it does require a
+clock line. This means that it takes a minimum of 4 wires as listed in Table \ref{table:spiwires}. The SCLK signal is the
+clock signal used by both the controller and peripheral. There is one CS line per peripheral. The CS line lets the controller 
+specify which peripheral it is communicating with. The COPI line is the data going from the controller to the peripheral. 
+The CIPO line is the data going from the peripheral to the controller. 
+
+SPI has a maximum data rate of 60 Mbps, which is the fastest of the 3 protocols commonly used in the embedded world. Because of 
+this, it is used in more data intense situations like SD Cards (where we will be using it) and displays.
 
 \begin{figure}[!htb]
 	% SPI
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Controller};
@@ -71,12 +250,38 @@ This chapter introduces students to using buttons and serial communications.
 		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,3.5) node [anchor=east] {CS1} |- (8,3.5) node [anchor=west] {CS} ;
 		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,0.5) node [anchor=east] {CS2} |- (5,0.5) |- (8,-4.5) node [anchor=west] {CS} ;
 	\end{tikzpicture}
-	\label{fig:spi}
 	\caption{SPI allows for one (sometime more) controller and multiple peripherals.}
+	\label{fig:spi}
 \end{figure}
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{l l}
+		\hline
+		Signal & Description \\ 
+		\hline
+		SCLK & Clock signal to keep everything synchronized \\
+		CS & Chip select--tells a peripheral that the controller is communicating with it \\
+		COPI & Controller Out, Peripheral In (used to be MOSI) \\
+		CIPO & Controller In, Peripheral Out (used to be MISO) \\
+		\hline
+	\end{tabular}
+	\caption{The SPI protocol uses these signals to connect.}
+	\label{table:spiwires}
+\end{table}
+
+\subsection{Inter-Integrated Circuit}
+The Inter-Integrated Circuit (I\textsuperscript{2}C, IIC, or I2C) protocol is multi-controller and multi-peripheral. Basically,
+any device connected to the bus can drive the communication. It is single ended so data only flows one way at a time. It only 
+requires 3 wires, SCL - clock, SDA - Data, and a ground reference. SCL and SDA do require pull-up resistors so that devices
+only have to pull the lines to ground to communicate as shown in Figure \ref{fig:i2c}. Instead of using chip select lines 
+like SPI, I2C requires each peripheral to have a unique address. I2C addresses for modules that are on the board or may be 
+used with the board can be seen in Table \ref{table:i2caddresses}. I2C has a max speed of 3.4 Mbps but is only 100 kbps in 
+standard mode.
 
 \begin{figure}[!htb]
 	% I2C
+	\centering
 	\begin{tikzpicture}[scale=0.7]
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Controller};
@@ -111,13 +316,10 @@ This chapter introduces students to using buttons and serial communications.
 		\draw [thick] (5.25,10.5)  -- (5.25,11) ;
 		\draw [thick] (5,11)  -- node [above,pos=0.5] {V\textsubscript{dd}} (5.5,11) ;
 	\end{tikzpicture}
-	\label{fig:i2c}
 	\caption{I\textsuperscript{2}C allows for multiple controllers and peripherals on the same bus.}
+	\label{fig:i2c}
 \end{figure}
 
-
-\section{I2C}
-I2C addresses for modules that are on the board or may be used with the board can be seen in Table \ref{table:i2caddresses}.
 
 \begin{table}[!ht]
 	\centering
