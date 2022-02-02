@@ -4,10 +4,130 @@
 \section{Introduction}
 This chapter introduces students to using buttons and serial communications.
 
+\section{Buttons}
+
+A typical button circuit is shown in Figure \ref{fig:buttonPullup}. The input is high until the button is pressed.
+Unfortunately, being mechanical, buttons do not always create nice, clean switched inputs. Maxim Integrated has a 
+\href{https://www.maximintegrated.com/en/design/technical-documents/app-notes/2/287.html}{nice paper} on the topic
+advertizing their devices to solve the problem. However, if we don't have the option of adding their hardware, some 
+work can be done in software to debounce an input. As Maxim mentions, software debouncing is not free. It does incur
+some overhead so you probably do not want to do it for many inputs. Am example of software debouncing is in 
+Listing \ref{lst:debounce}.
+
+\begin{lstlisting}[language=C++, caption={This is the Arduino example of software debouncing.},label={lst:debounce}]
+	/*
+	Debounce
+  
+	Each time the input pin goes from LOW to HIGH (e.g. because of a push-button
+	press), the output pin is toggled from LOW to HIGH or HIGH to LOW. There's a
+	minimum delay between toggles to debounce the circuit (i.e. to ignore noise).
+  
+	The circuit:
+	- LED attached from pin 13 to ground through 220 ohm resistor
+	- pushbutton attached from pin 2 to +5V
+	- 10 kilohm resistor attached from pin 2 to ground
+  
+	- Note: On most Arduino boards, there is already an LED on the board connected
+	  to pin 13, so you don't need any extra components for this example.
+  
+	created 21 Nov 2006
+	by David A. Mellis
+	modified 30 Aug 2011
+	by Limor Fried
+	modified 28 Dec 2012
+	by Mike Walters
+	modified 30 Aug 2016
+	by Arturo Guadalupi
+  
+	This example code is in the public domain.
+  
+	https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
+  */
+  
+  // constants won't change. They're used here to set pin numbers:
+  const int buttonPin = 9;    // the number of the pushbutton pin
+  const int ledPin = 13;      // the number of the LED pin
+  
+  // Variables will change:
+  int ledState = LOW;         // the current state of the output pin
+  int buttonState;             // the current reading from the input pin
+  int lastButtonState = LOW;   // the previous reading from the input pin
+  
+  // the following variables are unsigned longs because the time, measured in
+  // milliseconds, will quickly become a bigger number than can be stored in an int.
+  unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
+  unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
+  
+  void setup() {
+	Serial.begin(115200);
+	while(!Serial) delay(10);
+	Serial.println("Starting...");
+	
+	pinMode(buttonPin, INPUT);
+	pinMode(ledPin, OUTPUT);
+  
+	// set initial LED state
+	digitalWrite(ledPin, ledState);
+  }
+  
+  void loop() {
+	// read the state of the switch into a local variable:
+	int reading = digitalRead(buttonPin);
+  
+	// check to see if you just pressed the button
+	// (i.e. the input went from LOW to HIGH), and you've waited long enough
+	// since the last press to ignore any noise:
+  
+	// If the switch changed, due to noise or pressing:
+	if (reading != lastButtonState) {
+	  // reset the debouncing timer
+	  lastDebounceTime = millis();
+	}
+  
+	if ((millis() - lastDebounceTime) > debounceDelay) {
+	  // whatever the reading is at, it's been there for longer than the debounce
+	  // delay, so take it as the actual current state:
+  
+	  // if the button state has changed:
+	  if (reading != buttonState) {
+		buttonState = reading;
+  
+		// only toggle the LED if the new button state is HIGH
+		if (buttonState == HIGH) {
+		  ledState = !ledState;
+		}
+	  }
+	}
+  
+	// set the LED:
+	digitalWrite(ledPin, ledState);
+  
+	// save the reading. Next time through the loop, it'll be the lastButtonState:
+	lastButtonState = reading;
+  
+  }
+\end{lstlisting}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics{buttonSerial/button1.eps}
+	\label{fig:buttonPullup}
+	\caption{This is a typical button input circuit.}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.5]{buttonSerial/debounce.eps}
+	\label{fig:buttonDebounce}
+	\caption{This is an example of what the output signal from a button with the circuit in Figure \ref{fig:buttonPullup} could look like.}
+\end{figure}
+
+
 \section{Types of Serial}
 
 \begin{figure}[!htb]
 	% Serial
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Device 1};
@@ -21,6 +141,7 @@ This chapter introduces students to using buttons and serial communications.
 	
 	% Parallel
 \begin{figure}[!htb]
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,5) node (dev3) [pos=0.5] {Device 1};
@@ -42,6 +163,7 @@ This chapter introduces students to using buttons and serial communications.
 
 \begin{figure}[!htb]
 	% UART
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Device 1};
@@ -56,6 +178,7 @@ This chapter introduces students to using buttons and serial communications.
 
 \begin{figure}[!htb]
 	% SPI
+	\centering
 	\begin{tikzpicture}
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Controller};
@@ -77,6 +200,7 @@ This chapter introduces students to using buttons and serial communications.
 
 \begin{figure}[!htb]
 	% I2C
+	\centering
 	\begin{tikzpicture}[scale=0.7]
 		% BLOCKS
 		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Controller};
