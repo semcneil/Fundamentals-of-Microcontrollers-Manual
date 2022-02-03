@@ -237,18 +237,21 @@ this, it is used in more data intense situations like SD Cards (where we will be
 	\centering
 	\begin{tikzpicture}
 		% BLOCKS
-		\draw[thick] (0,0) rectangle (4,4) node (dev1) [pos=0.5] {Controller};
-		\draw[thick] (8,0) rectangle (12,4) node (dev2) [pos=0.5] {Peripheral 1};
-		\draw[thick] (8, -2) rectangle (12,-6) node (dev3) [pos=0.5] {Peripheral 2};
+		\draw[thick] (0,-1.5) rectangle (4,3.5) node (dev1) [anchor=east,pos=0.6] {Controller};
+		\draw[thick] (9,-1) rectangle (12,4) node (dev2) [pos=0.5] {Peripheral 1};
+		\draw[thick] (9, -2) rectangle (12,-6) node (dev3) [pos=0.5] {Peripheral 2};
 		% ARROWS	
-		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,2.5) node [anchor=east] {COPI} -- (8,2.5) node [anchor=west] {COPI} ;
-		\draw [thick,{latex[length=4mm, width=6mm]}-] (4,1.5) node [anchor=east] {CIPO} -- (8,1.5) node [anchor=west] {CIPO} ;
-		\fill[black]  (6,1.5) circle (3pt) ;
-		\draw [thick] (6,1.5) |- (8,-3.5) node [anchor=west] {CIPO} ;
-		\draw [thick, -{latex[length=4mm, width=6mm]}] (7,2.5) |- (8,-2.5) node [anchor=west] {COPI} ;
-		\fill[black]  (7,2.5) circle (3pt) ;
-		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,3.5) node [anchor=east] {CS1} |- (8,3.5) node [anchor=west] {CS} ;
-		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,0.5) node [anchor=east] {CS2} |- (5,0.5) |- (8,-4.5) node [anchor=west] {CS} ;
+		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,3) node [anchor=east] {CS1} |- (9,3) node [anchor=west] {CS} ;
+		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,2) node [anchor=east] {SCLK} -- (9,2) node [anchor=west] {SCLK} ;
+		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,1) node [anchor=east] {COPI} -- (9,1) node [anchor=west] {COPI} ;
+		\draw [thick,{latex[length=4mm, width=6mm]}-] (4,0) node [anchor=east] {CIPO} -- (9,0) node [anchor=west] {CIPO} ;
+		\draw [thick,-{latex[length=4mm, width=6mm]}] (4,-1) node [anchor=east] {CS2} |- (5,-1) |- (9,-5.5) node [anchor=west] {CS} ;
+		\draw [thick, -{latex[length=4mm, width=6mm]}] (8,2) |- (9,-2.5) node [anchor=west] {SCLK} ;
+		\draw [thick, -{latex[length=4mm, width=6mm]}] (7,1) |- (9,-3.5) node [anchor=west] {COPI} ;
+		\draw [thick] (6,0) |- (9,-4.5) node [anchor=west] {CIPO} ;
+		\fill[black]  (8,2) circle (3pt) ;  % SCLK
+		\fill[black]  (7,1) circle (3pt) ;  % COPI
+		\fill[black]  (6,0) circle (3pt) ;  % CIPO
 	\end{tikzpicture}
 	\caption{SPI allows for one (sometime more) controller and multiple peripherals.}
 	\label{fig:spi}
@@ -334,8 +337,58 @@ standard mode.
 		0x2D, 0x53, and 0x57 & ST25DV16 Dynamic NFC/RFID Tag IC \\
 		0x30 or other  & NeoKey 1x4 QT breakout board \\
 		0x10 & STEMMA MiniGPS \\
+		0x6A or 0x6B & LSM6DSOX IMU on the Nano Connect \\
+		0x60  & ATECC608A Cryptographic on the Nano Connect \\
 		\hline
 	\end{tabular}
 	\caption{I2C addresses for relevant modules.}
 	\label{table:i2caddresses}
 \end{table}
+
+\section{Laboratory Exercises}
+\subsection{Button to Serial}
+Create a sketch that prints to the serial port at 115,200 each time a button is pressed. The message should indicate which
+button is pressed. Both buttons should work on your board. Don't forget that the right button (A7) requires WiFiNINA.h to
+be included and the pin designation to be a \lstinline@#define@ not a \lstinline@const int@. The error messages are pretty helpful on this.
+
+\subsection{Tones}
+Create a sketch that plays a short tune when one of the buttons is pressed. There are examples of using the \lstinline@tone@ 
+function in Examples $\rightarrow$ 02.Digital. The buzzer is attached to pin A2 on the Arduino Nano RP2040 Connect.
+
+\subsection{APDS-9960}
+Create a sketch that prints the distance and color to the serial port once a second. In order to get the APDS-9960 working,
+you will need to install a library for it. Arduino, Adafruit, and Sparkfun all have libraries available in the library 
+manager. I have been using the Arduino one. Once you install the library, a new folder on the Examples menu should show up. 
+Look through the examples to get an idea how to do this. 
+
+\subsection{Distance to Tone}
+Create a sketch that plays an increasing tone as the APDS-9960's distance measurement decreases. It should play 
+no tone if there is nothing nearby (sensor reading 255 from the Arduino library). 
+
+\subsection{Color Recognition}
+Create a sketch that plays a tone or turns on a light (LED) when a specific color is seen by the APDS-9960. My playing with 
+the color readings is that it is not very precise. It is probably best to choose colors and just react to redder colors or 
+something down that line.
+
+\subsection{SHT31}
+Install the Adafruit SHT31 library and run it to see the temperature and humidity.
+
+%\subsection{Detecting Human Breathing}
+%Create a sketch that turns on a light or plays a tone when someone breathes on the SHT31 sensor.
+
+\subsection{Turn In}
+After demonstrating each sketch to the instructor, submit a copy of all the sketches compiled into a single PDF to Canvas. Also, submit the sketch files. Be sure that each sketch has the following 
+header:
+\begin{lstlisting}
+/* sketch_name.ino
+ *
+ * A description of what the sketch does 
+ *   and the inputs/outputs it needs.
+ *
+ * All authors' names (if working with a 
+ *   partner be sure to include both your names)
+ * CEC 326 (or other class name)
+ * Today's date in the format YYYY mmmmm dd 
+ *   as in 2022 February 03
+ */
+\end{lstlisting}
