@@ -345,6 +345,94 @@ standard mode.
 	\label{table:i2caddresses}
 \end{table}
 
+\section{In Case of Upload Lock-up or Failure}
+If the Arduino IDE is having trouble uploading to the Arduino Nano RP2040 Connect, try double pressing
+(not too fast) the reset button on the Nano once the IDE starts trying to upload.
+
+\section{Arduino Programming Suggestions}
+In general, try to start from an existing set of code (an example for instance) when working on something.
+For example, if you need to use the APDS-9960, load one of the examples from the library, then modify it
+until it does what you want. Once you have written a few sketches, you might write a generic starting point
+for your subsequent sketches.
+
+\section{Arduino Button Setup}
+An example of how to setup the buttons on the CEC 325 board. Some important details to note is that the left button 
+is attached to pin D9 (referred to as 9 in the Arduino infrastructure) which is attached to the RP2040 on the
+Arduino Nano RP2040 Connect module. The RP2040 has internal pull-up resistors that are tied correctly to the 
+Arduino IDE so that the pins can be setup using \lstinline@pinMode(LEFT_BUTTON_PIN, INPUT_PULLUP);@ and do not
+require an external pull-up resistor. The right button is attached to pin A7 on the module which is routed to the
+WiFiNINA module. This module's internal pull-up is not implemented in the Arduino IDE (as of 2022 February 03). 
+Therefore, it needs an external pull-up AND requires the sketch to include "WiFiNINA.h" AND the pin variable 
+HAS to be declared using \lstinline@#define@ rather than a \lstinline@const int@.
+
+\begin{lstlisting}[language=C++, caption={This is an example of how to setup the buttons on the CEC 325 board.},label={lst:buttons}]
+/* button_demo.ino
+ *  
+ *  Gives an example of how to use the buttons on 
+ *  the CEC 325 board.
+ *  
+ *  Seth McNeill
+ *  2022 February 03
+ */
+
+#include "WiFiNINA.h"  // for A4-A7 and wifi/bluetooth
+
+#define LEFT_BUTTON_PIN   9 // This input is on the RP2040 and has builtin pullup that works
+#define RIGHT_BUTTON_PIN  A7 // This input is on the WiFiNINA and doesn't have working internal pullup
+
+void setup() {
+  Serial.begin(115200);
+  //while(!Serial) delay(10);
+  delay(2000);
+
+  Serial.println("Starting...");
+
+  pinMode(LEFT_BUTTON_PIN, INPUT_PULLUP);
+  pinMode(RIGHT_BUTTON_PIN, INPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  // note that the buttons read 1 (HIGH or true) when not pressed
+  if(!digitalRead(LEFT_BUTTON_PIN)) {
+    Serial.println("Left button pushed");
+  }
+  if(!digitalRead(RIGHT_BUTTON_PIN)) {
+    Serial.println("Right button pushed");
+  }
+  delay(100); // keeps the loop from running too fast with nothing pushed
+}
+\end{lstlisting}
+
+\section{Arduino Serial Setup}
+The serial port has to be setup in the \lstinline@setup()@ function in the Arduino IDE. An example of setting it up 
+is shown in Listing \ref{lst:serial}.
+
+\begin{lstlisting}[language=C++, caption={This is an example of how to start the serial port at 112,500 in the Arduino system.},label={lst:serial}]
+void setup() {
+  Serial.begin(115200); // starts the serial connection at 115200 data (baud) rate
+  // If you are attached to a computer (not a robot on battery power
+  while(!Serial) delay(10); // wait for serial to start
+  // delay(2000);  // if might be on battery, just wait a bit for it to start
+  Serial.println("Starting...");
+
+}
+
+void loop() {
+  Serial.println("This has a new line character at the end");
+  Serial.print("This does not have a new line at the end: ");
+  Serial.println(millis());
+  delay(5000);
+}
+\end{lstlisting}
+I strongly suggest having the \lstinline@setup()@ function output to the serial port right after the serial port is started 
+so that you can know that your board has booted. Note that if you do not have a serial port (your robot is running off of 
+batteries so that it is not plugged into a computer) you need to remove the \lstinline@while(!Serial) delay(10)@ line and 
+replace it with some sort of timeout function. A \lstinline@delay(2000)@ is usually sufficient to allow the serial to start 
+if it exists but not hang if it doesn't. There are more complicated ways to do this, but that will be left as an exercise 
+for the reader.
+
+
 \section{Laboratory Exercises}
 \subsection{Button to Serial}
 Create a sketch that prints to the serial port at 115,200 each time a button is pressed. The message should indicate which
