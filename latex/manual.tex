@@ -18,6 +18,7 @@
 % For creating nice addition figures
 % based on https://tex.stackexchange.com/a/96764
 \usepackage{cancel}
+\usepackage{physics}  % for derivative symbols
 \usepackage{tikz}
 \usetikzlibrary{matrix, shapes, arrows.meta, positioning}
 \newcommand{\addend}{\text{\textsl{\color{gray}{Addend}}}}
@@ -84,7 +85,7 @@ urlcolor=blue
 	\include{displays/displays.tex}
 	%\include{dataTransfer/dataTransfer.tex}
 	%\include{dataCollection/dataCollection.tex}
-	%\include{inertialMeasurements/imu.tex}
+	\include{inertialMeasurements/imu.tex}
 	%\include{pwm/pwm.tex}
 	%\include{dcMotors/dcMotors.tex}
 	%\include{sampling/sampling.tex}
