@@ -4,3 +4,41 @@
 \section{Introduction}
 This chapter introduces students to using collecting inertial data such as
 linear and angular acceleration.
+
+\section{Rectilinear Kinematics}
+Rectilinear kinematics is about motion along a straight line. This provides a good starting point for 
+discussing the mathematics of inertial measurements. 
+
+Time, position, velocity, and acceleration have the following differential relationships:
+\begin{subequations}
+	\label{eq:rectkin}
+	\begin{align}
+		a = & \dv{v}{t} \\
+		v = & \dv{s}{t} \\
+		a \ \dd s = & v\  \dd v
+	\end{align}
+	
+\end{subequations}
+
+If the acceleration is known (or can be assumed to be) constant, Equations \ref{eq:rectkin} can be
+integrated to give Equations \ref{eq:constakin}.
+
+\begin{subequations}
+	\label{eq:constakin}
+	\begin{align}
+		v = & v_0 + a_ct \\
+		s = & s_0 + v_0t + 0.5a_ct^2 \\
+		v^2 = & v_0^2 + 2a_c(s - s_0)
+	\end{align}
+\end{subequations}
+
+Constant acceleration is usually applied to the kinematics of projectiles where the constant acceleration
+is due to gravity. In the case of a digital IMU, the acceleration measurement is reported periodically 
+(at 104~Hz in the default case of the LSM6DSOXTR on the Nano RP2040 Connect). Since it is a sampled system,
+we cannot just integrate Equations \ref{eq:rectkin} to get velocity and position. What we do instead is to
+assume constant acceleration between samples and run a cumulative sum to calculate the velocity and position.
+
+Integrating also assumes the knowledge of initial conditions. Usually we start with an initial condition of 
+being at rest. This simplifies our starting point. At each subsequent calculation, the output of the previous
+sample is taken as the initial condition. 
+
