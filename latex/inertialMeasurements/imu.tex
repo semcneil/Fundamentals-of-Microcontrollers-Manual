@@ -40,5 +40,132 @@ assume constant acceleration between samples and run a cumulative sum to calcula
 
 Integrating also assumes the knowledge of initial conditions. Usually we start with an initial condition of 
 being at rest. This simplifies our starting point. At each subsequent calculation, the output of the previous
-sample is taken as the initial condition. 
+sample is taken as the initial condition. This is shown in Equations \ref{eq:linearupdate}.
 
+\begin{subequations}
+	\label{eq:linearupdate}
+	\begin{align}
+		v[k] =& v[k-1] + a[k-1]\Delta t \\
+		s[k] =& s[k-1] + v[k-1]\Delta t + 0.5a[k-1](\Delta t)^2
+	\end{align}
+\end{subequations}
+
+As will become quite clear, this provides a noisy output with drift due to the two numeric integrations.
+There are several options for cleaning it up. One is to use trapezoidal rather than rectangular
+numeric integration. Another is to add some form of filtering to reduce the drift. Some options are
+a high pass filter on the acceleration and/or the velocity, Kalman filtering, or particle filtering.
+
+
+\section{Angle Measurement}
+Since earth's gravity provides a constant acceleration, detecting that constant allows a measurement of the 
+angle between a device and it to determine the angle between. That is the basis for measuring the angle 
+of a device using accelerometers. Since gyroscopes measure the rate of rotation, summing this angular
+speed over time will also give an estimate of angle. First, we will go over the basics of accelerometer 
+angle measurement, then gyroscope angle measurement, and lastly, how to combine both measurements to correct
+the error each is prone to. A paper showing several of these techniques is 
+\href{https://arxiv.org/pdf/1704.06053.pdf}{Using Inertial Sensors for Position
+and Orientation Estimation}.
+
+\subsection{Accelerometer Angles}
+% idea for angle from
+% https://tex.stackexchange.com/a/219039
+\begin{figure}[!htb]
+	\centering
+	\def\accelangle{300}
+	\begin{tikzpicture}[scale=3]
+		\coordinate (orig) at (0,0);
+		\coordinate (ax) at ({cos(\accelangle)},0);
+		\coordinate (az) at (0,sin(\accelangle);
+
+		% draw the axes
+		\draw[thick, gray, -{latex[length=4mm, width=6mm]}] (orig) -- (1.25,0) node[black,right] {$x$};
+		\draw[thick, gray, -{latex[length=4mm, width=6mm]}] (orig) -- (0,1.25) node[black,above] {$z$};
+
+		% draw accelerations
+		\draw[very thick, red, -{latex[length=4mm, width=6mm]}] (orig) -- (ax) node[pos=0.5, above] {$a_x$};
+		\draw[very thick, blue, -{latex[length=4mm, width=6mm]}] (orig) -- (az) node[pos=0.5, left] {$a_z$};
+		\draw[very thick, black, -{latex[length=4mm, width=6mm]}] (orig) -- (\accelangle:1)coordinate(g) node[black, anchor=north west] {1g};
+		\draw[dashed,blue] (az) -- (g);
+		\draw[dashed,red] (ax) -- (g);
+		\draw[dashed, gray] (orig) circle (1);
+
+		% label the angle
+		\pic [draw, {latex[length=4mm, width=6mm]}-{latex[length=4mm, width=6mm]},
+				angle radius=2cm, angle eccentricity=1.1,
+				"$\theta$"] {angle = az--orig--g};
+
+	\end{tikzpicture}
+	\caption{This shows the relative intensities of the accelerometer x and z ($a_x$ and $a_z$ respectively) measurements to 
+	the earth's gravity from the sensor frame of reference.}
+	\label{fig:accelangles}
+\end{figure}
+
+The problem is illustrated in Figure \ref{fig:accelangles}. In this case, we will take the x-axis as the horizontal axis and 
+the z-axis is the vertical. We will assume that there are no external forces applied besides the force
+of gravity. This is faulty if the device is translating or otherwise not rotating about the IMU. However, 
+we can still get some useful information even with this assumption. The vector sum of ax and az add to 
+a point on the unit (1~g) circle. Therefore, the angle can be calculated as shown in Equation \ref{eq:accelangle}.
+
+\begin{equation}
+	\label{eq:accelangle}
+	\theta_a = \tan^{-1}\left(\frac{a_x}{a_z}\right) = \atan2(a_x,a_z)
+\end{equation}
+
+The atan2 function is provided in most languages. It is a ``safe'' version of $\tan^{-1}$ that deals with 
+zeros and signs of $a_x$ and $a_z$ correctly and cleanly. If the language you are use has it (which it does)
+then use it to prevent calculation problems. Note that Equation \ref{eq:accelangle} is not time dependant
+and does not have any numerical integration. It provides a ground truth of the angle based on the assumptions
+at the beginning: no forces other than gravity and no noise. Unfortunately, the output tends to have high frequency
+noise so you usually want to run the output through a low-pass filter.
+
+\subsection{Gyroscope Angles}
+Gyroscopes output angular velocity, $\omega$, which when integrated can give the current angle relative to the starting
+angle. Since this system is sampled, instead of integration use a cumulative sum where each data point is based on the 
+previous one. Equation \ref{eq:angleupdate} shows the mathematical approximation of the current angle based on the 
+derivative of the angle $\theta$ with respect to time. This derivative is $\omega$ that is output by the gyroscope.
+\begin{equation}
+	\label{eq:angleupdate}
+	\theta(t + \Delta t) \approx \theta(t) + \frac{\partial}{\partial t}\theta(t)\Delta t
+\end{equation}
+
+The actual implementation of Equation \ref{eq:angleupdate} is shown in Equation \ref{eq:gyroangleupdate}.
+
+\begin{equation}
+	\label{eq:gyroangleupdate}
+	\theta_g[t] = \theta_g[t-1] + \omega\Delta t
+\end{equation}
+
+Since this calculation is based on integration it is susceptible to drift. The error in the output will 
+increase over time. A way to fix this is to run the output through a high pass filter to block the 
+low frequency drift.
+
+\subsection{Fusing Accelerometer and Gyroscope Angles}
+The errors in accelerometer angle measurement are complementary to those in the gyroscope angle estimates 
+since the acceleration estimates need a low pass filter and the gyroscope estimates need a high pass filter.
+If the values are combined carefully we can take advantage of the best properties of both measurements and 
+use them to correct the errors in the other measurements. A complementary filter as shown in Equation 
+\ref{eq:anglefused} works well for this.
+
+\begin{equation}
+	\label{eq:anglefused}
+	\theta_{mixed}[t] = \alpha \left(\theta_{mixed}[t-1] + \omega_{gyro}\Delta t \right) + (1-\alpha)\atan2(a_x,a_z)
+\end{equation}
+
+As can be seen, if $\alpha=0$, Equation \ref{eq:anglefused} reduces to the accelerometer angle measurement 
+and if $\alpha=1$ it reduces to the gyroscope angle measurement. Choosing an $\alpha$ value between 0 and 1 gives a 
+mixture of both results. Also, remember that the $\theta$ on the right side of Equation \ref{eq:anglefused} 
+is the previously calculated mixed $\theta$, not the output from a separately calculated gyroscope angle as 
+one might be tempted to do. Choose $\alpha$ through tuning (guided trial and error) based on the specific 
+system that is being implemented and problem needing to be solved. In one example, I found a value of $\alpha=0.95$ 
+worked well.
+
+It is very important to keep the units from each function correct. The gyroscopes on the Arduino Nano Connect RP2040
+output in degrees per second. The inverse tangent functions typically return values in radians.
+
+
+\section{Useful References}
+\begin{enumerate}
+	\item \href{https://stanford.edu/class/ee267/lectures/lecture9.pdf}{https://stanford.edu/class/ee267/lectures/lecture9.pdf}
+	\item \href{https://stanford.edu/class/ee267/lectures/lecture10.pdf}{https://stanford.edu/class/ee267/lectures/lecture10.pdf}
+	\item \href{https://stanford.edu/class/ee267/notes/ee267\_notes\_imu.pdf}{https://stanford.edu/class/ee267/notes/ee267\_notes\_imu.pdf}
+\end{enumerate}
