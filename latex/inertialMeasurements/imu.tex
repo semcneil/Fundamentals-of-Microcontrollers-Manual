@@ -54,7 +54,9 @@ As will become quite clear, this provides a noisy output with drift due to the t
 There are several options for cleaning it up. One is to use trapezoidal rather than rectangular
 numeric integration. Another is to add some form of filtering to reduce the drift. Some options are
 a high pass filter on the acceleration and/or the velocity, Kalman filtering, or optimization techniques.
-
+A paper showing several of these techniques is 
+\href{https://arxiv.org/pdf/1704.06053.pdf}{Using Inertial Sensors for Position
+and Orientation Estimation}.
 
 \section{Angle Measurement}
 Since earth's gravity provides a constant acceleration, detecting that constant allows a measurement of the 
@@ -62,9 +64,7 @@ angle between a device and it to determine the angle between. That is the basis 
 of a device using accelerometers. Since gyroscopes measure the rate of rotation, summing this angular
 speed over time will also give an estimate of angle. First, we will go over the basics of accelerometer 
 angle measurement, then gyroscope angle measurement, and lastly, how to combine both measurements to correct
-the error each is prone to. A paper showing several of these techniques is 
-\href{https://arxiv.org/pdf/1704.06053.pdf}{Using Inertial Sensors for Position
-and Orientation Estimation}.
+the error each is prone to. 
 
 \subsection{Accelerometer Angles}
 % idea for angle from
