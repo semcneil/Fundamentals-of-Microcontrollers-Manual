@@ -1,5 +1,91 @@
-\chapter{DC Motor Control}
+\chapter{DC Motors and Control}
 \chaplabel{dcMotors}
 
 \section{Introduction}
-This chapter introduces students to controlling DC motors using H-bridge type devices.
+This chapter introduces students to types of DC motors and controlling DC motors using H-bridge type devices.
+
+\section{Types of DC Motors}
+The types of DC motors relevant to this class are as follows:
+\begin{enumerate}
+	\item Brushed
+	\begin{enumerate}
+		\item DC 
+		\item Hobby Servos
+	\end{enumerate}
+	\item Brushless
+	\item Stepper
+\end{enumerate}
+
+\subsection{Brushed DC}
+Brushed DC motors are very common. The haptic motors that make your phone vibrate are likely brushed DC motors.
+The motors in most toys are also brushed DC motors. They are cheap to make and easy to use so they are very
+common. The direction of rotation is controlled by changing the polarity of the applied voltage. The speed of 
+rotation is controlled by varying the magnitude of the applied voltage. The torque of a brushed DC motor 
+increases with rotational speed. The advantages and disadvantages of brushed DC motors is outlined in 
+Table \ref{table:dcbrushed}.
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{l l}
+		\hline
+		Advantages & Disadvantages \\ 
+		\hline
+		Inexpensive & Mechanical noise from brushes \\
+		Lightweight & Electrical noise from brushes \\
+		Reasonably efficient  & \\
+		\hline
+	\end{tabular}
+	\caption{Advantages and disadvantages of brushed DC motors.}
+	\label{table:dcbrushed}
+\end{table}
+
+The brushes on brushed DC motors change which coil in the rotor is activated as the rotor rotates such 
+that the rotor is always pushing away from the permanent magnets in the stator. The brushes transfer 
+the current from the stator to the rotor by having electrical brushes contacting metal patches on the 
+rotor.
+
+\subsection{Hobby Servos}
+
+\subsection{Brushless DC Motors}
+Brushless DC motors have the coils in the stator and the permanent magnets on the rotor. The coils are 
+activated in sequence to keep the rotor spinning. An electronic speed controller (ESC) controls the 
+coil activation to keep the motor spinning at the desired rate. Some ESCs make use of a sensor on the 
+motor to tell which coil needs activating to keep the motor spinning. Sensorless ESCs (common in the 
+hobby market) measure the back emf (voltage across each coil) to know when to activate each coil.
+
+It is important to choose a good quality ESC that is rated sufficiently to drive the motor. I have had 
+a couple catastrophic failures of ESCs in flight. Fortunately, they were on fixed wing drones with 
+good pilots so there was no other loss of payload/aircraft. 
+
+Brushless DC motors are used all around as well in things like computer fans, hard drive platter spinners,
+ drones, and hybrid vehicles. The advantages and disadvantages of brushless DC motors are outlined in 
+ Table \ref{table:dcbrushless}.
+
+ \begin{table}[!ht]
+	\centering
+	\begin{tabular}{l l}
+		\hline
+		Advantages & Disadvantages \\ 
+		\hline
+		Quiet & Usually require separate ESC \\
+		Efficient & \\
+		\hline
+	\end{tabular}
+	\caption{Advantages and disadvantages of brushless DC motors.}
+	\label{table:dcbrushless}
+\end{table}
+
+\subsection{Stepper Motors}
+Stepper motors move one step at a time which makes them very useful in situations where fine motion control 
+is needed. Position control is possible without any feedback mechanism when using stepper motors. However, 
+if the motor is under too large a load, it may skip a step and position estimation will be off. Stepper 
+motors have highest torque at low speed with torque dropping as speed increases. They require at least 
+two H-bridges to drive. 
+
+\section{References}
+\begin{enumerate}
+	\item \href{https://learn.adafruit.com/adafruit-motor-selection-guide?view=all}{Adafruit Motor Selection Guide}
+	\item \href{https://learn.sparkfun.com/tutorials/hobby-servo-tutorial/all}{SparkFun Servo Tutorial}
+	\item \href{https://www.arduino.cc/reference/en/libraries/servo/}{Arduino Servo Library}
+	\item \href{https://www.ti.com/lit/an/slva767a/slva767a.pdf}{TI Stepper Motor Reference}
+\end{enumerate}
