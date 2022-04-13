@@ -3,3 +3,55 @@
 
 \section{Introduction}
 This chapter introduces students to some basic control strategies including PID.
+
+
+\section{PID Control}
+The parallel (how we usually draw the controller) form of the PID 
+equation is shown in Equation \ref{eq:pidpar}.
+\begin{equation}
+    \label{eq:pidpar}
+    u(t) = K_p e(t) + K_i\int_0^t e(\tau)d\tau + K_d\frac{d}{dt}e(t)
+\end{equation}
+
+The standard form of the PID equation rearranges the gains so that they have
+a more easily understood physical meaning as shown in Equation \ref{eq:pidstd}.
+
+\begin{equation}
+    \label{eq:pidstd}
+    u(t) = K_p\left(e(t) + \frac{1}{T_i}\int_0^t e(\tau)d\tau + T_d\frac{d}{dt}e(t)\right)
+\end{equation}
+
+In the standard form, $T_i$ is the time it will take to eliminate all errors
+assuming the loop control does not change. $T_d$ is how far into the future
+the derivative term is trying to predict the error. Note that times in this 
+context can either be in seconds or samples. Samples is more typical in an 
+actual implementation.
+
+\subsection{Proportional Control}
+Sometimes just using the proportional term is enough for controlling a system.
+The equation is shown in Equation \ref{eq:pidpro}.
+
+\begin{equation}
+    \label{eq:pidpro}
+    u(t) = K_p e(t)    
+\end{equation}
+
+\subsection{Integral Control}
+It is a rare system that only requires integral control but the equation 
+for integral control is shown in Equation \ref{eq:pidint}.
+\begin{equation}
+    \label{eq:pidint}
+    u(t) = K_i\int_0^t e(\tau)d\tau   
+\end{equation}
+
+\subsection{Differential Control}
+It is also rare that a system can be controlled satisfactorily with only
+differential control, but for completeness it is shown in Equation \ref{eq:piddiff}.
+\begin{equation}
+    \label{eq:piddiff}
+    u(t) = K_d\frac{d}{dt}e(t) 
+\end{equation}
+
+\subsection{PI and PD Control}
+PI and PD control are sometimes sufficient to control a system satisfactorily.
+
