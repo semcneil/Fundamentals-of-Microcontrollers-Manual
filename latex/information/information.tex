@@ -273,6 +273,61 @@ for some situations.
 As with all algorithms, the parameters will have to be chosen and tuned to work with the particular data 
 you are measuring.
 
+\section{Bayes Theorem}
+A pattern classifier can be thought of as a set of functions, $g_i(\bar{x})$, called discriminant 
+functions. There is a discriminant function for each class, $\omega_i$, that evaluates a particular 
+set of data, $\bar{x}$. The classification rule is then: 
+
+\noindent Assign $\bar{x}$ to class $\omega_i$ if 
+\begin{equation}
+    g_i(\bar{x}) > g_j(\bar{x})\ \mathrm{for\ all}\ j \neq i
+\end{equation}
+
+A good and helpful option to explore for $g_i$ is called Bayes Theorem. The formula for Bayes Theorem
+is shown in Equation~\ref{eq:bayes}. 
+
+\begin{equation} \label{eq:bayes}
+    P\left(\omega_i | \bar{x}\right) = \frac{p(\bar{x}|\omega_i)P(\omega_i)}{p(\bar{x})}
+\end{equation}
+
+where
+\begin{itemize}
+    \item $\bar{x}$ is the data. If we are classifying faces is an image of a face 
+    \item $\omega_i$ is class $i$, one of the possible identities of the face we are trying to classify 
+    \item $P(\omega_i|\bar{x})$ is the posterior probability--the probability of $\omega_i$ 
+            given $\bar{x}$. In the example, it is the probability that the 
+            face image belongs to me rather than someone else in the database.
+    \item $p(\bar{x}|\omega_i)$ is the likelihood or state conditional probability density function. 
+            This is the probability that $\bar{x}$ occurred given class $\omega_i$. For example what 
+            is the probability of that the face image given that it is of me. The likelihood is 
+            calculated based on collected data.
+    \item $P(\omega_i)$ is the prior probability of class $\omega_i$. Rolling a single 6~sided die gives 
+            equal probability of each number so the priors are all $1/6$. However, if instead we look at 
+            the sum of rolling 2 dice the probabilities of each number is no longer the same and the 
+            priors are different. The priors are calculated from existing, collected data.
+    \item $p(\bar{x})$ is the evidence which is a scale factor to keep the probabilities summing to 1
+    \begin{equation}
+        \sum_j P(\omega_j|\bar{x}) = 1
+    \end{equation}
+            The evidence is calculated from existing, collected data as
+    \begin{equation}
+        p(\bar{x}) = \sum_j p(\bar{x}|\omega_j)P(\omega_j)
+    \end{equation}
+\end{itemize}
+
+Discriminant functions are not unique. As long as $f(\cdot)$ is monotonically increasing 
+$f(g_i(\bar{x}))$ will work too. Therefore, all of the Equations~\ref{eq:discriminants} will work.
+
+\begin{subequations}
+    \label{eq:discriminants}
+    \begin{align}
+        g_i(\hat{x}) =& P(\omega_i|\bar{x}) \\
+                     =& \frac{p(\hat{x}|\omega_i)P(\omega_i)}{\sum_j p(\hat{x}|\omega_j)P(\omega_j)} \\
+                     =& p(\hat{x}|\omega_i)P(\omega_i) \\
+                     =& \ln\left(p\left(\hat{x}|\omega_i\right)\right) + \ln\left(P\left(\omega_i\right)\right)
+    \end{align}
+\end{subequations}
+
 \section{ML Metrics}
 
 \subsection{Accuracy}
