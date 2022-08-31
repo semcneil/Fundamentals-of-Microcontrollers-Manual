@@ -91,7 +91,11 @@ The reasons for this stem from early computers
 using switches (relays) as their basic computing elements and the fact that telling the 
 difference between a ``high" voltage and a ``low" voltage is easier to do than to differentiate
 10 different voltages. It also allows for a gap between high and low that creates some 
-immunity to noise. (TODO: insert figure or reference figure from logic chapter) 
+immunity to noise called the \href{https://3.bp.blogspot.com/-7GOaQqAncoU/VelAErlx5gI/AAAAAAAARLE/kITWaG8LAws/s1600/noise%2Bmargin.png}{noise margin}. 
+The figure linked to labels noise margin at NM which indicates how much (in volts) the signal coming
+from the source on the left can be degraded and still be recognized as a high or low. The other 
+cool thing about digital signals is that each device the signal passes through removes
+all noise.
 
 \section{Converting Between Bases}
 \subsection{Binary to Decimal}
@@ -130,20 +134,20 @@ goes as follows:
 As an example, let's convert $11_{10}$ to binary. 
 \begin{equation}
 	\begin{aligned}
-		11 \div 2 & = 5R1 &\rightarrow 1 &\mathrm{~(LSB)} \\
-		5 \div 2 & = 2R1 &\rightarrow 1 \\
-		2 \div 2 & = 1R0 &\rightarrow 0 \\
-		1 \div 2 & = 0R1 &\rightarrow 1 & \mathrm{~(MSB)}
+		11 \divisionsymbol 2 & = 5R1 &\rightarrow 1 &\mathrm{~(LSB)} \\
+		5 \divisionsymbol 2 & = 2R1 &\rightarrow 1 \\
+		2 \divisionsymbol 2 & = 1R0 &\rightarrow 0 \\
+		1 \divisionsymbol 2 & = 0R1 &\rightarrow 1 & \mathrm{~(MSB)}
 	\end{aligned}
 \end{equation}
 That means that $11_{10}$ is $1011_2$. As another example let us convert $20_{10}$ to binary.
 \begin{equation}
 	\begin{aligned}
-		20 \div 2 & = 10R0 &\rightarrow 0 &\mathrm{~(LSB)}\\
-		10 \div 2 & = 5R0  &\rightarrow 0 \\
-		5 \div 2 &  = 2R1  &\rightarrow 1 \\
-		2 \div 2 &  = 1R0  &\rightarrow 0 \\
-		1 \div 2 &  = 0R1  &\rightarrow 1 & \mathrm{~(MSB)}
+		20 \divisionsymbol 2 & = 10R0 &\rightarrow 0 &\mathrm{~(LSB)}\\
+		10 \divisionsymbol 2 & = 5R0  &\rightarrow 0 \\
+		5 \divisionsymbol 2 &  = 2R1  &\rightarrow 1 \\
+		2 \divisionsymbol 2 &  = 1R0  &\rightarrow 0 \\
+		1 \divisionsymbol 2 &  = 0R1  &\rightarrow 1 & \mathrm{~(MSB)}
 	\end{aligned}
 \end{equation}
 This shows that $20_{10}$ is $10100_2$.
