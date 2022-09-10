@@ -27,24 +27,37 @@ used is usually derived from context. Using the dot ($\cdot$) everywhere can bec
 makes it obvious (usually examples involving A, B, and C or X and Y) we may drop the dots and just use adjacency to represent
 the AND function.
 
+In this class, most of the logic you write will be done in C++. Some of the following tables will also
+address how to represent logic in C++.
+
 \section{Boolean Algebra}
 
 \subsection{Theorems of Boolean Algebra}
 Ways to show NOT:
 \begin{subequations}
-	\begin{align}
-	NOT(X) &= \overline{X} = X^{\prime} \\
-	\overline{(\overline{X})} &= \left(X^{\prime}\right)^{\prime}= X
-	\end{align}
+	\begin{alignat}{3}
+        &\mathrm{Algebra} &&\quad \mathrm{C++}\notag \\
+	NOT(X) &= \overline{X} = X^{\prime} &&\quad !x \\
+	\overline{(\overline{X})} &= \left(X^{\prime}\right)^{\prime}= X &&\quad !(!x) = x
+	\end{alignat}
 \end{subequations}
 Rules of AND and OR:
 \begin{subequations}
 	\begin{align}
-	\mathrm{AND} \qquad & \mathrm{OR}\notag\\
-	0\cdot0 = 0 \qquad & 1+1 = 1\\
-	1\cdot1 = 1 \qquad & 0+0 = 0\\
-	0\cdot1 = 1\cdot0 = 0 \qquad & 1 + 0 = 0 + 1 = 1
+	\mathrm{AND} \quad & \mathrm{OR}\notag\\
+	0\cdot0 = 0 \quad & 1+1 = 1\\
+	1\cdot1 = 1 \quad & 0+0 = 0\\
+	0\cdot1 = 1\cdot0 = 0 \quad & 1 + 0 = 0 + 1 = 1
 	\end{align}
+\end{subequations}
+And repeated in C++ form:
+\begin{subequations}
+    \begin{align}
+	\mathrm{AND} \quad & \mathrm{OR}\notag\\
+	\mathrm{false\: \&\&\: false == false} \quad & \mathrm{true\:||\:true\:==\:true}\\
+	\mathrm{true\: \&\&\: true == true} \quad & \mathrm{false\:||\:false\:==\:false}\\
+	\mathrm{true\: \&\&\: false == false} \quad & \mathrm{true\:||\:false\:==\:true}
+    \end{align}
 \end{subequations}
 
 \begin{subequations}
