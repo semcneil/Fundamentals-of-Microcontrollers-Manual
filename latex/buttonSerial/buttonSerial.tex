@@ -331,7 +331,7 @@ standard mode.
 		Address (HEX) & Module \\ 
 		\hline
 		0x44 or 0x45 & SHT31-DIS Temperature/Humidity \\
-		0x3D & 1.3" 128x64 OLED Display \\
+		%0x3D & 1.3" 128x64 OLED Display \\
 		0x39 & APDS-9960 Light, Color, Proximity, Gesture \\
 		0x77 & BME688 Temperature, Humidity, Gas \\
 		0x2D, 0x53, and 0x57 & ST25DV16 Dynamic NFC/RFID Tag IC \\
@@ -339,6 +339,10 @@ standard mode.
 		0x10 & STEMMA MiniGPS \\
 		0x6A or 0x6B & LSM6DSOX IMU on the Nano Connect \\
 		0x60  & ATECC608A Cryptographic on the Nano Connect \\
+        0x0D & QMC5883 Magnetic Compass \\
+        0x29 & VL6180 Proximity Sensor, address moveable \\
+        0x18, 0x1F & ADS7142 ADC, address based on wiring \\
+        0x20, 0x21 & PCA9535 I2C to GPIO, address based on wiring \\
 		\hline
 	\end{tabular}
 	\caption{I2C addresses for relevant modules.}
