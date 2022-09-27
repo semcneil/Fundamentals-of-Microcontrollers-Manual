@@ -180,9 +180,9 @@ A table of serial protocols is listed in Table \ref{table:serialTypes}.
 		UART & Used to communicate between computers and Arduino boards \\
 		SPI & Used for higher speed communications between devices on circuit boards \\
 		I\textsuperscript{2}C & Only uses two wires and allows for multiple controllers and peripherals \\
+		1-Wire  & Only requires 1 wire and ground (no power) to communicate \\
 		\rowcolor{lightgray}\emph{CAN} & \emph{Often used in the automotive industry} \\
 		\rowcolor{lightgray}\emph{RS-485} & \emph{Differential signaling for robustness (noisy and long wires)} \\
-		\rowcolor{lightgray}\emph{1-Wire}  & \emph{Only requires 1 wire and ground (no power) to communicate} \\
 		\rowcolor{lightgray}\emph{USB} & \emph{Ubiquitous on computers now} \\
 		\hline
 	\end{tabular}
@@ -435,53 +435,3 @@ batteries so that it is not plugged into a computer) you need to remove the \lst
 replace it with some sort of timeout function. A \lstinline@delay(2000)@ is usually sufficient to allow the serial to start 
 if it exists but not hang if it doesn't. There are more complicated ways to do this, but that will be left as an exercise 
 for the reader.
-
-
-\section{Laboratory Exercises}
-\subsection{Button to Serial}
-Create a sketch that prints to the serial port at 115,200 each time a button is pressed. The message should indicate which
-button is pressed. Both buttons should work on your board. Don't forget that the right button (A7) requires WiFiNINA.h to
-be included and the pin designation to be a \lstinline@#define@ not a \lstinline@const int@. The error messages are pretty helpful on this.
-
-\subsection{Tones}
-Create a sketch that plays a short tune when one of the buttons is pressed. There are examples of using the 
-\href{https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/}{tone} 
-function in Examples $\rightarrow$ 02.Digital. The buzzer is attached to pin A2 on the Arduino Nano RP2040 Connect.
-
-\subsection{APDS-9960}
-Create a sketch that prints the distance and color to the serial port once a second. In order to get the APDS-9960 working,
-you will need to install a library for it. Arduino, Adafruit, and Sparkfun all have libraries available in the library 
-manager. I have been using the Arduino one. Once you install the library, a new folder on the Examples menu should show up. 
-Look through the examples to get an idea how to do this. 
-
-\subsection{Distance to Tone}
-Create a sketch that plays an increasing tone as the APDS-9960's distance measurement decreases. It should play 
-no tone if there is nothing nearby (sensor reading 255 from the Arduino library). 
-
-\subsection{Color Recognition}
-Create a sketch that plays a tone or turns on a light (LED) when a specific color is seen by the APDS-9960. My playing with 
-the color readings is that it is not very precise. It is probably best to choose colors and just react to redder colors or 
-something down that line.
-
-\subsection{SHT31}
-Install the Adafruit SHT31 library and run it to see the temperature and humidity.
-
-%\subsection{Detecting Human Breathing}
-%Create a sketch that turns on a light or plays a tone when someone breathes on the SHT31 sensor.
-
-\subsection{Turn In}
-After demonstrating each sketch to the instructor, submit a copy of all the sketches compiled into a single PDF to Canvas. Also, submit the sketch files. Be sure that each sketch has the following 
-header:
-\begin{lstlisting}
-/* sketch_name.ino
- *
- * A description of what the sketch does 
- *   and the inputs/outputs it needs.
- *
- * All authors' names (if working with a 
- *   partner be sure to include both your names)
- * CEC 326 (or other class name)
- * Today's date in the format YYYY mmmmm dd 
- *   as in 2022 February 03
- */
-\end{lstlisting}
