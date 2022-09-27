@@ -119,4 +119,28 @@ Some useful methods that can be called on the display object are:
 	\item More can be \href{https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives}{found here}.
 \end{enumerate}
 
-% TODO: show how to update the screen using the canvas method
+\subsection{Using Canvas to Reduce Flicker}
+Redrawing by calling \lstinline@fillScreen()@ causes a flicker that can be 
+problematic. The solution is to create a canvas in memory that the program
+draws to and then copy it over to the display using \lstinline@drawBitmap@. 
+This technique does require that the microcontroller have enough memory to 
+store the canvas.
+
+The method requires creating a canvas variable, drawing everything to the canvas
+and then copying the canvas over to the display. Listing \ref{lst:canvasdisplay}
+shows the basics of this method.
+
+
+\begin{lstlisting}[language=C++, caption={Snippets showing how to use a canvas to 
+    reduce flicker when updating a display.},label={lst:canvasdisplay}]
+    // unlike the online example, 
+    //this is a 16-bit color canvas
+    GFXcanvas16 canvas(240,135);
+    ...
+    canvas.fillScreen(ST77XX_BLACK);  // clear canvas
+    canvas.setCursor(0,0);
+    canvas.setTextSize(3);
+    canvas.println("Hello world!");
+    tft.drawRGBBitmap(0, 0, canvas.getBuffer(),
+        240, 135);  // copy canvas to display
+\end{lstlisting}
