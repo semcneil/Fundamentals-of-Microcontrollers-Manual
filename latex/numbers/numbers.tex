@@ -230,6 +230,14 @@ Calculate the binary difference $0001\;0011\;1101-0000\;1011\;0111$.
 
 
 \subsection{Twos Complement method}
+In order to represent negative numbers a set of logic has to be overlaid over the 
+basic unsigned integer binary number system. One method is called the Two's Complement
+method. This arranges 4-bit binary numbers as shown in Table \ref{table:twoscomplement}.
+The great part about the two's complement method is that adding and subtracting can be 
+done with no knowledge of whether the numbers involved are two's complement or not. 
+Adding and subtracting can proceed as if the numbers are unsigned and then the interpretation
+as a negative or positive number can be done afterwards. Examples are shown in 
+Equations~\ref{eq:twos_binary_integer_addition} and \ref{eq:twos_binary_integer_subraction}.
 
 \begin{table}[!ht]
 	\centering
@@ -258,6 +266,49 @@ Calculate the binary difference $0001\;0011\;1101-0000\;1011\;0111$.
 	\caption{This table shows the decimal and two's complement numbers for 4-bits.}
 	\label{table:twoscomplement}
 \end{table}
+
+Calculate the two's complement binary sum $1101 + 0011$ ($-3 + 3 = 0$).
+\begin{equation}
+\begin{tikzpicture}[
+    row 1/.style={font=\textsl,font=\scriptsize,black!85, %anchor=west,
+        inner sep=1.5pt, row sep=-3pt},
+    every node/.style={column sep=.5pt,row sep=1pt}]
+    \matrix (m) [matrix of math nodes,
+        nodes in empty cells,
+        %nodes=draw
+    ] 
+    {
+        & 1 & 1 & 1 &   &                   \\
+        & 1 & 1 & 0 & 1 &[10mm] \\
+    +   & 0 & 0 & 1 & 1 &  \\ 
+        & 0 & 0 & 0 & 0 &  \\                                                  
+    };
+
+    \draw[-,color=black,semithick] (m-3-1.south west) -- (m-3-5.south east);
+
+\end{tikzpicture}
+\label{eq:twos_binary_integer_addition}
+\end{equation}
+
+Calculate the two's complement binary difference $1101-0011$ \\($-3-3=-6$).
+\begin{equation}
+\begin{tikzpicture}[
+    every node/.style={column sep=.5pt,row sep=1pt}]
+    \matrix (m) [matrix of math nodes,
+        nodes in empty cells,
+        %nodes=draw
+    ] 
+    {
+        & 1 & \cancelto{0}{1} & \cancelto{10}{0} & 1 &[10mm] \\
+    -   & 0 & 0 & 1 & 1 &  \\ 
+        & 1 & 0 & 1 & 0 &  \\                                                  
+    };
+
+    \draw[-,color=black,semithick] (m-2-1.south west) -- (m-2-5.south east);
+
+\end{tikzpicture}
+\label{eq:twos_binary_integer_subraction}
+\end{equation}
 
 
 \section{Gray Codes}
