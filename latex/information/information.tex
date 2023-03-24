@@ -330,25 +330,75 @@ $f(g_i(\bar{x}))$ will work too. Therefore, all of the Equations~\ref{eq:discrim
 
 \section{ML Metrics}
 
+\subsection{Confusion Matrix}
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{c c | c c c | c}
+        & & \multicolumn{3}{c|}{Predicted} & \\
+         & & A & B & C & Total \\
+        \hline
+        \multirow{3}{*}{\rotatebox[origin=c]{90}{Actual}} & A & 10 & 1 & 2 & 13 \\
+        & B & 3 & 11 & 4 & 18 \\
+        & C & 5 & 6 & 12 & 23 \\
+        \hline
+        & Total  & 18 & 18 & 18 & 54
+	\end{tabular}
+	\caption{This shows what the rows and columns of a confusion matrix mean.}
+	\label{table:confusionmatrix}
+\end{table}
+
+\begin{equation}
+    \begin{bmatrix}
+        10 & 1 & 2 \\
+        3 & 11 & 4 \\
+        5 & 6 & 12
+    \end{bmatrix}
+\end{equation}
+
 \subsection{Accuracy}
 \begin{equation}
     \mathrm{Accuracy} = \frac{\mathrm{\# correct}}{\mathrm{\# predictions}}
+    = \frac{10+11+12}{1+2+3+4+5+6+10+11+12} = 0.61
 \end{equation}
 
 
 \subsection{Precision}
+Precision is only calculated per class. Overall precision ends up as the
+same as overall accuracy. Precision can be thought of as accuracy by column
+of a confusion matrix. 
 \begin{equation}
     \mathrm{Precision} = \frac{\mathrm{\# True Positives}}{\mathrm{\# True Positives}+\mathrm{\# False Positives}}
 \end{equation}
+For class A in the example (Table \ref{table:confusionmatrix}), the precision
+would be:
+\begin{equation}
+    \mathrm{PrecA}=\frac{10}{10+3+5} = 0.56
+\end{equation}
 
 \subsection{Recall}
+Recall is also only calculated per class because calculating it for everything
+also degenerates to overall accuracy. Recall can be thought of as looking 
+along the rows of the confusion matrix.
 \begin{equation}
     \mathrm{Recall} = \frac{\mathrm{\# True Positives}}{\mathrm{\# True Positives}+\mathrm{\# False Negatives}}
 \end{equation}
+For class A in the example (Table \ref{table:confusionmatrix}), the recall
+would be:
+\begin{equation}
+    \mathrm{RecallA}=\frac{10}{10+1+2} = 0.77
+\end{equation}
+
 
 \subsection{F1 Score}
+F1 score is the harmonic mean of precision and recall and therefore is also 
+only calculated on a per class basis.
 \begin{equation}
     \mathrm{F1 Score} = 2*\frac{\mathrm{Precision*Recall}}{\mathrm{Precision+Recall}}
+\end{equation}
+For class A in the example (Table \ref{table:confusionmatrix}), the F1 score
+would be:
+\begin{equation}
+    \mathrm{F1A}=2\left(\frac{0.56 * 0.77}{0.56+0.77}\right) = 0.65
 \end{equation}
 
 
