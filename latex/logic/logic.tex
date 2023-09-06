@@ -8,6 +8,52 @@ When can you drive through an intersection? When the light is NOT red. This is t
 logic operator--the NOT element. It simply changes any TRUE to FALSE or FALSE to TRUE (you can substitute
 1 for TRUE and 0 for FALSE, or on/off).
 
+Another way to think about stop lights is that it is legal to go through the intersection 
+if the light is green OR yellow. Or you must stop if the light is NOT green AND NOT yellow. 
+Let's build a table of values for each of these situations. 
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		\textbf{RED} & \textbf{GO} \\ 
+		\hline
+		TRUE & FALSE  \\ \hline
+		FALSE & TRUE  \\ \hline
+	\end{tabular}
+	\caption{Legally driving through an intersection can be written using a NOT function.}
+	\label{table:stoptf}
+\end{table}
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		\textbf{RED} & \textbf{GO} \\ 
+		\hline
+		1 & 0  \\ \hline
+		0 & 1  \\ \hline
+	\end{tabular}
+	\caption{Crossing an intersection can also be done with 0/1 rather than TRUE/FALSE.}
+	\label{table:stop01}
+\end{table}
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| c | c | c |}
+		\hline
+		\textbf{GREEN} & \textbf{YELLOW} & \textbf{GO} \\ 
+		\hline
+		FALSE & FALSE & FALSE \\ \hline
+		FALSE & TRUE  & TRUE  \\ \hline
+		TRUE  & FALSE & TRUE  \\ \hline
+		\sout{TRUE}  & \sout{TRUE}  & \sout{TRUE}  \\ \hline
+	\end{tabular}
+	\caption{Legally driving through an intersection can be written using an OR function.
+                Note that normally in the US, the green and yellow lights should not both be on.}
+	\label{table:stopor}
+\end{table}
+
 How do you start a car? In most of the cars I have driven I have to press on the brake at the 
 same time as I turn the key. To say it another way, the car starts when I press the break
 AND turn the key.
@@ -29,6 +75,17 @@ the AND function.
 
 In this class, most of the logic you write will be done in C++. Some of the following tables will also
 address how to represent logic in C++.
+
+Going back to the stoplight example, we can look at the same information using the nomenclature just 
+introduced.
+\begin{subequations}
+    \begin{align}
+    GO &= \overline{RED} \\
+    GO &= GREEN + YELLOW \\
+    STOP &= \overline{GREEN}\cdot\overline{YELLOW} \\
+    \overline{GO} &= \overline{GREEN}\cdot\overline{YELLOW}
+    \end{align}
+\end{subequations}
 
 \section{Boolean Algebra}
 
