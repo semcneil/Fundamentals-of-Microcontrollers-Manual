@@ -12,10 +12,10 @@ git merge dev
 git push origin main
 git checkout docs
 git merge main
-sleep 2
+sleep 5
 echo "make clean to remove old files"
 make clean
-sleep 2
+sleep 7
 echo "Making new PDF"
 make
 git status
