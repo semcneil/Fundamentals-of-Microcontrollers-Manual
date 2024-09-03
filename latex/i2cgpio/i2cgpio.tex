@@ -104,6 +104,7 @@ an output. Table~\ref{table:pca9535config} shows the registers.
 	\label{table:pca9535config}
 \end{table}
 
+\subsection{Pin mapping for Lab Robot}
 
 \begin{figure}[!htb]
 	% LED segment labeling
@@ -137,4 +138,28 @@ an output. Table~\ref{table:pca9535config} shows the registers.
     \caption{A single segment of a seven segment digit is connected with this circuit. 
         Setting LED\_A to 1 (open) and DIG1 to 0 (closed) lights up the segment.}
     \label{fig:sevensegindcircuit}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.23]{i2cgpio/PCA9535-Segs.png}
+    \caption{This shows the mapping between the PCA9535 at address 0x21 and 
+    the seven segment display segments.}
+    \label{fig:PCA9535Segs}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.2]{i2cgpio/PCA9535-Digs.png}
+    \caption{This shows the mapping between the PCA9535 at address 0x21 and 
+    the seven segment display digits.}
+    \label{fig:PCA9535Digs}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.2]{i2cgpio/PCA9535-LSB-MSB.png}
+    \caption{This shows the mapping between the PCA9535 at address 0x21 and 
+    the seven segment display showing most significant and least significant digits.}
+    \label{fig:PCA9535LSB}
 \end{figure}
